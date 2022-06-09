@@ -26,39 +26,6 @@
     <div class="buttons"></div>
   </div>
 
-  <div class="modal" id="creditsModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">{{t('footer.credits')}}</h5>
-          <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <h4><a href="https://boardgamegeek.com/boardgame/248125/monumental" target="_blank">{{t('gameTitle')}}</a></h4>
-          <dl>
-            <dt>Game design</dt>
-            <dd>Matthew Dunstan</dd>
-            <dt>Graphic design</dt>
-            <dd>Funforge studio</dd>
-            <dt>Publisher</dt>
-            <dd><a href="https://funforge.fr/" target="_blank">Funforge</a></dd>
-          </dl>
-          <h4 class="border-top pt-3">{{appTitle}}</h4>
-          <dl>
-            <dt>Application Development</dt>
-            <dd>Stefan Seifert</dd>
-            <dt>Version</dt>
-            <dd>{{buildNumber}}</dd>
-            <dt>Source Code (Apache-2.0 License)</dt>
-            <dd><a href="https://github.com/brdgm/monumental-solo-helper" target="_blank">https://github.com/brdgm/monumental-solo-helper</a></dd>
-          </dl>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" data-bs-dismiss="modal">{{t('action.close')}}</button>
-        </div>
-      </div>
-    </div>
-  </div>
 </template>
 
 <script lang="ts">
