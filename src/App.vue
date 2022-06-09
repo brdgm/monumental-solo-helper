@@ -5,7 +5,7 @@
     <router-view :key="$route.fullPath"/>
   </div>
 
-  <Footer @zoomFontSize="zoomFontSize"/>
+  <Footer :build-number="buildNumber" :credits-label="t('footer.credits')" credits-modal-id="creditsModal" zoom-enabled @zoomFontSize="zoomFontSize"/>
 
   <div class="modal" tabindex="-1" id="errorMessage">
     <div class="modal-dialog">
@@ -64,7 +64,7 @@ import { defineComponent, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStore } from '@/store'
 import Header from 'brdgm-commons/src/components/structure/Header.vue'
-import Footer from '@/components/structure/Footer.vue'
+import Footer from 'brdgm-commons/src/components/structure/Footer.vue'
 import { Modal } from 'bootstrap'
 
 export default defineComponent({
