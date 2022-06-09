@@ -51,7 +51,7 @@ export default defineComponent({
     
     const baseFontSize = ref(store.state.baseFontSize)
 
-    return { t, store, baseFontSize }
+    return { t, baseFontSize }
   },
   data() {
     return {
@@ -61,7 +61,7 @@ export default defineComponent({
   methods: {
     zoomFontSize(payload: { baseFontSize: number }) {
       this.baseFontSize = payload.baseFontSize
-      this.store.commit('zoomFontSize', this.baseFontSize)
+      this.$store.commit('zoomFontSize', this.baseFontSize)
     }
   },
   errorCaptured(err : unknown) {

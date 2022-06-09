@@ -30,12 +30,12 @@ export default defineComponent({
       inheritLocale: true,
       useScope: 'global'
     })
-    const store = useStore()
-    return { t, locale, availableLocales, store }
+    useStore()
+    return { t, locale, availableLocales }
   },
   methods: {
     setLocale(lang: string) {
-      this.store.commit('language', lang)
+      this.$store.commit('language', lang)
       this.locale = lang;
     }
   }
