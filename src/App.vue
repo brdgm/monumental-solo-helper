@@ -66,6 +66,7 @@ import { useStore } from '@/store'
 import Header from 'brdgm-commons/src/components/structure/Header.vue'
 import Footer from 'brdgm-commons/src/components/structure/Footer.vue'
 import { Modal } from 'bootstrap'
+import getErrorMessage from 'brdgm-commons/src/util/error/getErrorMessage'
 
 export default defineComponent({
   name: 'App',
@@ -105,7 +106,7 @@ export default defineComponent({
     }
   },
   errorCaptured(err : unknown) {
-    this.errorMessage = err as string
+    this.errorMessage = getErrorMessage(err, translErr => this.t(translErr.key, translErr.named, translErr.plural))
     const modal = new Modal(document.getElementById('errorMessage') as Element)
     modal.show()
   }
