@@ -12,7 +12,7 @@
       </td>
     </tr>
     <tr>
-      <th>{{t('scoring.knowledgeCards')}}</th>
+      <th scope="row">{{t('scoring.knowledgeCards')}}</th>
       <template v-for="playerIndex in playerCount" :key="playerIndex">
         <td class="count"><input type="number" min="0" max="99" v-model="knowledgeCardCount[playerIndex-1]" @change="persist" @focus="inputSelectAll"></td>
         <tdScore :value="knowledgeCardVP[playerIndex-1]" :dominance-value="knowledgeCardDominanceVP[playerIndex-1]"/>
@@ -23,7 +23,7 @@
       </template>
     </tr>
     <tr>
-      <th>{{t('scoring.wonderCards')}}</th>
+      <th scope="row">{{t('scoring.wonderCards')}}</th>
       <template v-for="playerIndex in playerCount" :key="playerIndex">
         <td class="count"><input type="number" min="0" max="99" v-model="wonderCardCount[playerIndex-1]" @change="persist" @focus="inputSelectAll"></td>
         <tdScore :value="wonderCardVP[playerIndex-1]" :dominance-value="wonderCardDominanceVP[playerIndex-1]"/>
@@ -34,7 +34,7 @@
       </template>
     </tr>
     <tr>
-      <th>{{t('scoring.culturalPolicies')}}</th>
+      <th scope="row">{{t('scoring.culturalPolicies')}}</th>
       <template v-for="playerIndex in playerCount" :key="playerIndex">
         <td class="count"><input type="number" min="0" max="99" v-model="culturalPolicyCount[playerIndex-1]" @change="persist" @focus="inputSelectAll"></td>
         <tdScore :value="culturalPolicyVP[playerIndex-1]" :dominance-value="culturalPolicyDominanceVP[playerIndex-1]"/>
@@ -45,7 +45,7 @@
       </template>
     </tr>
     <tr>
-      <th>{{t('scoring.provinces')}}</th>
+      <th scope="row">{{t('scoring.provinces')}}</th>
       <template v-for="playerIndex in playerCount" :key="playerIndex">
         <td class="count"><input type="number" min="0" max="99" v-model="provinceCount[playerIndex-1]" @change="persist" @focus="inputSelectAll"></td>
         <tdScore :value="provinceVP[playerIndex-1]" :dominance-value="provinceDominanceVP[playerIndex-1]"/>
@@ -56,7 +56,7 @@
       </template>
     </tr>
     <tr>
-      <th>{{t('scoring.monster')}}</th>
+      <th scope="row">{{t('scoring.monster')}}</th>
       <template v-for="playerIndex in playerCount" :key="playerIndex">
         <td class="count"><input type="number" min="0" max="99" v-model="monsterCount[playerIndex-1]" @change="persist" @focus="inputSelectAll"></td>
         <tdScore :value="monsterCount[playerIndex-1]"/>
@@ -67,7 +67,7 @@
       </template>
     </tr>
     <tr>
-      <th>{{t('scoring.gold')}}</th>
+      <th scope="row">{{t('scoring.gold')}}</th>
       <template v-for="playerIndex in playerCount" :key="playerIndex">
         <td class="count"></td>
         <td class="score"></td>
@@ -78,7 +78,7 @@
       </template>
     </tr>
     <tr class="total">
-      <th>{{t('scoring.total')}}</th>
+      <th scope="row">{{t('scoring.total')}}</th>
       <template v-for="playerIndex in playerCount" :key="playerIndex">
         <td class="count"></td>
         <tdScore :value="totalVP[playerIndex-1]"/>
