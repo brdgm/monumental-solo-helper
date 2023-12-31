@@ -2,7 +2,7 @@
   <h3 class="mt-3 mb-3">{{t('setup.selectExpansion.title')}}</h3>
   <div class="row">
     <div class="col-md-3 col-5">
-      <img src="@/assets/game-monumental.jpg" class="game"/>
+      <img src="@/assets/game-monumental.jpg" class="game" alt=""/>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" value="" id="coreBoxEnabled" checked disabled>
         <label class="form-check-label" for="coreBoxEnabled">
@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="col-md-3 col-5">
-      <img src="@/assets/game-monumental-lost-kingdoms.jpg" class="game selectable" :class="{disabled: !hasLostKingdoms}"
+      <img src="@/assets/game-monumental-lost-kingdoms.jpg" class="game selectable" alt="" :class="{disabled: !hasLostKingdoms}"
           @click="toggleLostKingdoms"/>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="lostKingdomsEnabled" 
