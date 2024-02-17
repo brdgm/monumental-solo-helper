@@ -90,7 +90,7 @@
 </template>
 
 <script lang="ts">
-import * as _ from 'lodash'
+import { groupBy, Dictionary } from 'lodash'
 import { defineComponent, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
@@ -162,12 +162,12 @@ export default defineComponent({
         return '/round/' + (this.round+1) + '/player/1'
       }
     },
-    displayedActionsPerCard() : _.Dictionary<BotCardAction[]> {
+    displayedActionsPerCard() : Dictionary<BotCardAction[]> {
       let actions = this.bot.actions;
       if (this.nextActionIndex != undefined) {
         actions = this.bot.actions.slice(0, this.nextActionIndex+1)
       }
-      return _.groupBy(actions, action => action.cardNumber)
+      return groupBy(actions, action => action.cardNumber)
     },
     nextAction() : BotCardAction | undefined {
       if (this.nextActionIndex != undefined) {

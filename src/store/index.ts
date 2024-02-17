@@ -1,4 +1,4 @@
-import * as _ from 'lodash'
+import {remove } from 'lodash'
 import { InjectionKey } from 'vue'
 import { createStore, useStore as baseUseStore, Store } from 'vuex'
 import DifficultyLevel from '@/services/enum/DifficultyLevel'
@@ -134,7 +134,7 @@ export const store = createStore<State>({
     },
     roundResetTurn(state : State, data: RoundResetTurnPayload) {
       // remove all rounds > the given round
-      _.remove(state.rounds, r => r.round > data.round)
+      remove(state.rounds, r => r.round > data.round)
       const round = state.rounds.find(r => r.round==data.round)
       if (round) {
         // remove bot persistence from current and subsequent bots

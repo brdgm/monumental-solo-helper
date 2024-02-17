@@ -92,7 +92,7 @@
 </template>
 
 <script lang="ts">
-import * as _ from 'lodash'
+import { fill, max } from 'lodash'
 import { computed, defineComponent, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStore } from '@/store'
@@ -134,18 +134,18 @@ export default defineComponent({
     }
 
     const scoring = store.state.scoring
-    const knowledgeCardCount = ref(scoring?.knowledgeCardCount ?? _.fill(Array(playerCount+botCount),0))
-    const wonderCardCount = ref(scoring?.wonderCardCount ?? _.fill(Array(playerCount+botCount),0))
-    const culturalPolicyCount = ref([...scoring?.culturalPolicyCountPlayer ?? _.fill(Array(playerCount),0), ...botCulturalPolicies])
-    const provinceCount = ref(scoring?.provinceCount ?? _.fill(Array(playerCount+botCount),0))
-    const monsterCount = ref([...scoring?.monsterCountPlayer ?? _.fill(Array(playerCount),0), ..._.fill(Array(botCount),0)])
+    const knowledgeCardCount = ref(scoring?.knowledgeCardCount ?? fill(Array(playerCount+botCount),0))
+    const wonderCardCount = ref(scoring?.wonderCardCount ?? fill(Array(playerCount+botCount),0))
+    const culturalPolicyCount = ref([...scoring?.culturalPolicyCountPlayer ?? fill(Array(playerCount),0), ...botCulturalPolicies])
+    const provinceCount = ref(scoring?.provinceCount ?? fill(Array(playerCount+botCount),0))
+    const monsterCount = ref([...scoring?.monsterCountPlayer ?? fill(Array(playerCount),0), ...fill(Array(botCount),0)])
 
     const knowledgeCardVP = computed({
       get: () => knowledgeCardCount.value,
       set: (v) => v
     })
     const knowledgeCardDominanceVP = computed({
-      get: () => knowledgeCardCount.value.map(c => c>0 && c==_.max(knowledgeCardCount.value) ? 3 : 0),
+      get: () => knowledgeCardCount.value.map(c => c>0 && c==max(knowledgeCardCount.value) ? 3 : 0),
       set: (v) => v
     })
     const wonderCardVP = computed({
@@ -153,7 +153,7 @@ export default defineComponent({
       set: (v) => v
     })
     const wonderCardDominanceVP = computed({
-      get: () =>  wonderCardCount.value.map(c => c>0 && c==_.max( wonderCardCount.value) ? 3 : 0),
+      get: () =>  wonderCardCount.value.map(c => c>0 && c==max( wonderCardCount.value) ? 3 : 0),
       set: (v) => v
     })
     const culturalPolicyVP = computed({
@@ -161,7 +161,7 @@ export default defineComponent({
       set: (v) => v
     })
     const culturalPolicyDominanceVP = computed({
-      get: () => culturalPolicyCount.value.map(c => c>0 && c==_.max(culturalPolicyCount.value) ? 3 : 0),
+      get: () => culturalPolicyCount.value.map(c => c>0 && c==max(culturalPolicyCount.value) ? 3 : 0),
       set: (v) => v
     })
     const provinceVP = computed({
@@ -169,14 +169,14 @@ export default defineComponent({
       set: (v) => v
     })
     const provinceDominanceVP = computed({
-      get: () => provinceCount.value.map(c => c>0 && c==_.max(provinceCount.value) ? 3 : 0),
+      get: () => provinceCount.value.map(c => c>0 && c==max(provinceCount.value) ? 3 : 0),
       set: (v) => v
     })
     const monsterVP = computed({
       get: () => monsterCount.value,
       set: (v) => v
     })
-    const goldVP =  [..._.fill(Array(playerCount),0), ...botGold.map(gold => Math.floor(gold / 3))]
+    const goldVP =  [...fill(Array(playerCount),0), ...botGold.map(gold => Math.floor(gold / 3))]
     const totalVP = computed({
       get: () => {
         const result : number[] = []
