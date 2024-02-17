@@ -1,4 +1,4 @@
-import * as _ from 'lodash'
+import { reduce } from 'lodash'
 import { BotPersistence } from '@/store'
 import CardDeck from './CardDeck'
 import Civilization from './Civilization'
@@ -40,7 +40,7 @@ export default class Bot {
 
   public get goldTotal() : number {
     // initial gold + gold earned/payed in completed actions
-    return this._gold + _.reduce(this.actions.filter(action => action.completed),
+    return this._gold + reduce(this.actions.filter(action => action.completed),
         (sum, action) => sum + action.gold, 0)
   }
 
@@ -256,7 +256,7 @@ export default class Bot {
     const civilization = Civilizations.get(persistence.civilization)
     const cardDeck = CardDeck.fromPersistence(persistence.cardDeck)
     // calculate new initial gold from previous actions and discard the actions
-    const gold = persistence.gold + _.reduce(persistence.actions, (sum, action) => sum + action.gold, 0)
+    const gold = persistence.gold + reduce(persistence.actions, (sum, action) => sum + action.gold, 0)
     return new Bot(civilization, cardDeck,
       gold, persistence.culturalPolicies, [], [], 0)
   }

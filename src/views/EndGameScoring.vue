@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import * as _ from 'lodash'
+import { reduce } from 'lodash'
 import { defineComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStore } from '@/store'
@@ -25,7 +25,7 @@ export default defineComponent({
     const store = useStore()
 
     const botCount = store.state.setup.civilizations.botCivilization.length
-    const lastRound = _.reduce(store.state.rounds, (max, round) => Math.max(max, round.round), 0)
+    const lastRound = reduce(store.state.rounds, (max, round) => Math.max(max, round.round), 0)
 
     return { t, botCount, lastRound }
   },

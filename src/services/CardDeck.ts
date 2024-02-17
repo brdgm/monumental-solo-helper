@@ -1,4 +1,4 @@
-import * as _ from 'lodash'
+import { shuffle, remove, random } from 'lodash'
 import Card from './Card'
 import Cards from './Cards'
 import CivilizationName from './enum/CivilizationName'
@@ -54,7 +54,7 @@ export default class CardDeck {
   public shuffleDiscardDrawPile() : void {
     this._drawPile.push(...this._discardPile)
     this._discardPile = []
-    this._drawPile = _.shuffle(this._drawPile)
+    this._drawPile = shuffle(this._drawPile)
   }
 
   /**
@@ -91,7 +91,7 @@ export default class CardDeck {
    */
   public discardCard(card: Card) : void {
     this._discardPile.push(card)
-    _.remove(this._openCards, c => c.name == card.name)
+    remove(this._openCards, c => c.name == card.name)
   }
 
   /**
@@ -100,7 +100,7 @@ export default class CardDeck {
    */
   public moveToNexus(card: Card) : void {
     this._nexusCards.push(card)
-    _.remove(this._openCards, c => c.name == card.name)
+    remove(this._openCards, c => c.name == card.name)
   }
 
   /**
@@ -108,9 +108,9 @@ export default class CardDeck {
    * @param card Card
    */
   public removeCard(card: Card) : void {
-    _.remove(this._drawPile, c => c.name == card.name)
-    _.remove(this._discardPile, c => c.name == card.name)
-    _.remove(this._openCards, c => c.name == card.name)
+    remove(this._drawPile, c => c.name == card.name)
+    remove(this._discardPile, c => c.name == card.name)
+    remove(this._openCards, c => c.name == card.name)
   }
 
   /**
@@ -152,7 +152,7 @@ export default class CardDeck {
       }
       else {
         while (advancedCards.length < numAdvancedCards) {
-          const randomIndex = _.random(allAdvancedCards.length - 1)
+          const randomIndex = random(allAdvancedCards.length - 1)
           const advancedCard = allAdvancedCards[randomIndex]
           if (!advancedCards.includes(advancedCard)) {
             advancedCards.push(advancedCard)
