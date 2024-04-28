@@ -40,30 +40,30 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useStore } from '@/store'
+import { useStateStore } from '@/store/state'
 import Expansion from '@/services/enum/Expansion'
 
 export default defineComponent({
   name: 'SelectExpansion',
   setup() {
     const { t } = useI18n()
-    useStore()
-    return { t }
+    const state = useStateStore()
+    return { t, state }
   },
   computed: {
     hasLostKingdoms() : boolean {
-      return this.$store.state.setup.expansions.includes(Expansion.LOST_KINGDOMS)
+      return this.state.setup.expansions.includes(Expansion.LOST_KINGDOMS)
     },
     hasAfricanEmpires() : boolean {
-      return this.$store.state.setup.expansions.includes(Expansion.AFRICAN_EMPIRES)
+      return this.state.setup.expansions.includes(Expansion.AFRICAN_EMPIRES)
     }
   },
   methods: {
     toggleLostKingdoms() {
-      this.$store.commit('setupToggleExpansionLostKingdoms')
+      this.state.setupToggleExpansionLostKingdoms()
     },
     toggleAfricanEmpires() {
-      this.$store.commit('setupToggleExpansionAfricanEmpires')
+      this.state.setupToggleExpansionAfricanEmpires()
     }
   }
 })

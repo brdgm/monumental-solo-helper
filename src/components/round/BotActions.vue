@@ -94,7 +94,7 @@ import { groupBy, Dictionary } from 'lodash'
 import { defineComponent, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
-import { useStore } from '@/store'
+import { useStateStore } from '@/store/state'
 import Bot from '@/services/Bot'
 import ActionText from './ActionText.vue'
 import GoldInfo from './GoldInfo.vue'
@@ -117,36 +117,36 @@ export default defineComponent({
   setup() {
     const { t } = useI18n()
     const route = useRoute()
-    const store = useStore()
+    const state = useStateStore()
 
-    const navigationState = new NavigationState(route, store.state)
+    const navigationState = new NavigationState(route, state)
     const round = navigationState.round
     const botIndex = navigationState.botIndex
     const botCount = navigationState.botCount
     const civilizationName = navigationState.civilizationName as string
 
-    const botPersistence = store.state.rounds[round-1]?.bots[botIndex-1]
+    const botPersistence = state.rounds[round-1]?.bots[botIndex-1]
     let bot
     if (botPersistence) {
       bot = Bot.fromPersistence(botPersistence)
     }
     else if (round > 1) {
-      const previousRoundBotPersistence = store.state.rounds[round-2]?.bots[botIndex-1]
+      const previousRoundBotPersistence = state.rounds[round-2]?.bots[botIndex-1]
       if (previousRoundBotPersistence) {
         bot = Bot.fromPersistenceStartNewRound(previousRoundBotPersistence)
         bot.startRound()
-        store.commit('roundBot', { round: round, botIndex: botIndex, bot: bot.toPersistence() })
+        state.roundBot({ round: round, botIndex: botIndex, bot: bot.toPersistence() })
       }
     }
     if (!bot) {
-      bot = Bot.new(store.state.setup.difficultyLevel, civilizationName as CivilizationName, 2)
+      bot = Bot.new(state.setup.difficultyLevel, civilizationName as CivilizationName, 2)
       bot.startRound()
-      store.commit('roundBot', { round: round, botIndex: botIndex, bot: bot.toPersistence() })
+      state.roundBot({ round: round, botIndex: botIndex, bot: bot.toPersistence() })
     }
 
     const nextActionIndex = ref(bot.getNextActionIndex())
 
-    return { t, round, botIndex, botCount, civilizationName, bot, nextActionIndex }
+    return { t, state, round, botIndex, botCount, civilizationName, bot, nextActionIndex }
   },
   data() {
     return {
@@ -199,7 +199,7 @@ export default defineComponent({
     },
     updateAndPersist() : void {
       this.nextActionIndex = this.bot.getNextActionIndex()
-      this.$store.commit('roundBot', { round: this.round, botIndex: this.botIndex, bot: this.bot.toPersistence() })
+      this.state.roundBot({ round: this.round, botIndex: this.botIndex, bot: this.bot.toPersistence() })
     },
     isChooseAction(action : BotCardAction) {
       return action.action == Action.CHOOSE_ACTION

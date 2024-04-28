@@ -33,12 +33,6 @@ export const useStateStore = defineStore(`${name}.store`, {
     setupToggleExpansionAfricanEmpires() {
       toggleArrayItem(this.setup.expansions, Expansion.AFRICAN_EMPIRES)
     },
-    setupDifficultyLevel(level: number) {
-      this.setup.difficultyLevel = level
-    },
-    setupCivilizations(civilizations: CivilizationSetup) {
-      this.setup.civilizations = civilizations
-    },
     roundBot(data: RoundBotPayload) {
       // remove round from state if it already exists
       let round = this.rounds.find(r => r.round==data.round)
@@ -70,9 +64,6 @@ export const useStateStore = defineStore(`${name}.store`, {
     resetGameRounds() {
       this.rounds = []
       this.scoring = undefined
-    },
-    zoomFontSize(baseFontSize: number) {
-      this.baseFontSize = baseFontSize
     }
   },
   persist: true

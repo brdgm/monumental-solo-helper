@@ -95,7 +95,7 @@
 import { fill, max } from 'lodash'
 import { computed, defineComponent, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useStore } from '@/store'
+import { useStateStore } from '@/store/state'
 import CivilizationIconName from '@/components/structure/CivilizationIconName.vue'
 import tdScore from './ScoreCell.vue'
 import Bot from '@/services/Bot'
@@ -108,13 +108,13 @@ export default defineComponent({
   },
   setup() {
     const { t } = useI18n()
-    const store = useStore()
+    const state = useStateStore()
 
-    const playerCivilization = store.state.setup.civilizations.playerCivilization
-    const playerCount = store.state.setup.civilizations.playerCivilization.length
-    const botCivilization = store.state.setup.civilizations.botCivilization
-    const botCount = store.state.setup.civilizations.botCivilization.length
-    const roundCount = store.state.rounds.length
+    const playerCivilization = state.setup.civilizations.playerCivilization
+    const playerCount = state.setup.civilizations.playerCivilization.length
+    const botCivilization = state.setup.civilizations.botCivilization
+    const botCount = state.setup.civilizations.botCivilization.length
+    const roundCount = state.rounds.length
 
     // get gold and cultural policies from bots
     const botGold : number[] = []
@@ -122,8 +122,8 @@ export default defineComponent({
     for (let i=0; i<botCount; i++) {
       botGold[i] = 0
       botCulturalPolicies[i] = 0
-      for (let roundIndex=store.state.rounds.length-1; roundIndex>=0; roundIndex--) {
-        const round = store.state.rounds[roundIndex]
+      for (let roundIndex=state.rounds.length-1; roundIndex>=0; roundIndex--) {
+        const round = state.rounds[roundIndex]
         if (i < round.bots.length) {
           const bot = Bot.fromPersistence(round.bots[i])
           botGold[i] = bot.goldTotal
@@ -133,7 +133,7 @@ export default defineComponent({
       }
     }
 
-    const scoring = store.state.scoring
+    const scoring = state.scoring
     const knowledgeCardCount = ref(scoring?.knowledgeCardCount ?? fill(Array(playerCount+botCount),0))
     const wonderCardCount = ref(scoring?.wonderCardCount ?? fill(Array(playerCount+botCount),0))
     const culturalPolicyCount = ref([...scoring?.culturalPolicyCountPlayer ?? fill(Array(playerCount),0), ...botCulturalPolicies])
@@ -192,7 +192,7 @@ export default defineComponent({
       set: (v) => v
     })
 
-    return { t, playerCivilization, playerCount, botCivilization, botCount, roundCount,
+    return { t, state, playerCivilization, playerCount, botCivilization, botCount, roundCount,
       knowledgeCardCount, knowledgeCardVP, knowledgeCardDominanceVP,
       wonderCardCount, wonderCardVP, wonderCardDominanceVP,
       culturalPolicyCount, culturalPolicyVP, culturalPolicyDominanceVP,
@@ -203,13 +203,13 @@ export default defineComponent({
   },
   methods: {
     persist() {
-      this.$store.commit('scoring', {
+      this.state.scoring = {
         knowledgeCardCount: this.knowledgeCardCount,
         wonderCardCount: this.wonderCardCount,
         culturalPolicyCountPlayer: this.culturalPolicyCount.slice(0, this.playerCount),
         provinceCount: this.provinceCount,
         monsterCountPlayer: this.monsterCount.slice(0, this.playerCount)
-      })
+      }
     },
     inputSelectAll(event: Event) : void {
       const input = event.target as HTMLInputElement

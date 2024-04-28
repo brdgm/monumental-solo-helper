@@ -14,7 +14,7 @@
 import { defineComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
-import { useStore } from '@/store'
+import { useStateStore } from '@/store/state'
 import CivilizationIconName from '@/components/structure/CivilizationIconName.vue'
 import FooterButtons from '@/components/structure/FooterButtons.vue'
 import NavigationState from '@/util/NavigationState'
@@ -28,14 +28,10 @@ export default defineComponent({
   setup() {
     const { t } = useI18n()
     const route = useRoute()
-    const store = useStore()
+    const state = useStateStore()
 
-    const navigationState = new NavigationState(route, store.state)
-    const round = navigationState.round
-    const playerIndex = navigationState.playerIndex
-    const playerCount = navigationState.playerCount
-    const botIndex = navigationState.botIndex
-    const botCount = navigationState.botCount
+    const navigationState = new NavigationState(route, state)
+    const { round, playerIndex, playerCount, botIndex, botCount } = navigationState
     const civilizationName = navigationState.civilizationName as string
 
     return { t, round, playerIndex, playerCount, botIndex, botCount, civilizationName }
