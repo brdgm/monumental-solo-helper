@@ -1,4 +1,4 @@
-import { BotCardActionPersistence } from '@/store'
+import { BotCardActionPersistence } from '@/store/state'
 import ActionsHelp from './ActionsHelp'
 import Bot from './Bot'
 import Card from './Card'

@@ -1,5 +1,5 @@
 import { reduce } from 'lodash'
-import { BotPersistence } from '@/store'
+import { BotPersistence } from '@/store/state'
 import CardDeck from './CardDeck'
 import Civilization from './Civilization'
 import Civilizations from './Civilizations'

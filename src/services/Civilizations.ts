@@ -1,6 +1,6 @@
 import Civilization from './Civilization'
-import CivilizationName from './enum/CivilizationName';
-import CivilizationType from './enum/CivilizationType';
+import CivilizationName from './enum/CivilizationName'
+import CivilizationType from './enum/CivilizationType'
 import Expansion from './enum/Expansion'
 import findMandatory from 'brdgm-commons/src/util/map/findMandatory'
 
