@@ -2,7 +2,7 @@ import { shuffle, remove, random } from 'lodash'
 import Card from './Card'
 import Cards from './Cards'
 import CivilizationName from './enum/CivilizationName'
-import { CardDeckPersistence } from '@/store'
+import { CardDeckPersistence } from '@/store/state'
 import toCardNames from '@/util/toCardNames'
 import toCards from '@/util/toCards'
 

@@ -50,9 +50,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { CivilizationSetup, useStore } from '@/store'
+import { CivilizationSetup, useStateStore } from '@/store/state'
 import SelectCivilization from './SelectCivilization.vue'
 import Expansion from '@/services/enum/Expansion'
 import CivilizationName from '@/services/enum/CivilizationName'
@@ -65,8 +65,14 @@ export default defineComponent({
   },
   setup() {
     const { t } = useI18n()
-    const store = useStore()
-    return { t, store }
+    const state = useStateStore()
+
+    const numberPlayers = ref(state.setup.civilizations.numberPlayers)
+    const numberHumanPlayers = ref(state.setup.civilizations.numberHumanPlayers)
+    const playerCivilization = ref([...state.setup.civilizations.playerCivilization])
+    const botCivilization = ref([...state.setup.civilizations.botCivilization])
+
+    return { t, state, numberPlayers, numberHumanPlayers, playerCivilization, botCivilization }
   },
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -76,19 +82,15 @@ export default defineComponent({
   },
   data() {
     return {
-      numberPlayers: this.$store.state.setup.civilizations.numberPlayers,
-      numberHumanPlayers: this.$store.state.setup.civilizations.numberHumanPlayers,
-      playerCivilization: [...this.$store.state.setup.civilizations.playerCivilization],
-      botCivilization: [...this.$store.state.setup.civilizations.botCivilization],
       valid: false
     }
   },
   computed: {
     hasLostKingdoms() : boolean {
-      return this.$store.state.setup.expansions.includes(Expansion.LOST_KINGDOMS)
+      return this.state.setup.expansions.includes(Expansion.LOST_KINGDOMS)
     },
     hasAfricanEmpires() : boolean {
-      return this.$store.state.setup.expansions.includes(Expansion.AFRICAN_EMPIRES)
+      return this.state.setup.expansions.includes(Expansion.AFRICAN_EMPIRES)
     },
     hasFivePlayers() : boolean {
       return this.hasLostKingdoms || this.hasAfricanEmpires
@@ -146,7 +148,7 @@ export default defineComponent({
           playerCivilization: this.playerCivilization.slice(0, this.numberHumanPlayers),
           botCivilization: this.botCivilization.slice(0, this.numberPlayers - this.numberHumanPlayers)
         }
-        this.$store.commit('setupCivilizations', civilizations)
+        this.state.setup.civilizations = civilizations
       }
 
       this.valid = valid
@@ -160,7 +162,7 @@ export default defineComponent({
       if (!civ) {
         return false;
       }
-      if (civ.expansion != undefined && !this.$store.state.setup.expansions.includes(civ.expansion)) {
+      if (civ.expansion != undefined && !this.state.setup.expansions.includes(civ.expansion)) {
         return false
       }
       return true
