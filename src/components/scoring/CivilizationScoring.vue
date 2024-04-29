@@ -128,7 +128,7 @@ export default defineComponent({
           const bot = Bot.fromPersistence(round.bots[i])
           botGold[i] = bot.goldTotal
           botCulturalPolicies[i] = bot.culturalPolicies
-          break;
+          break
         }
       }
     }

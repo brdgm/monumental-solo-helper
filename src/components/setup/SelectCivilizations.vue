@@ -160,7 +160,7 @@ export default defineComponent({
       }
       const civ = Civilizations.get(name)
       if (!civ) {
-        return false;
+        return false
       }
       if (civ.expansion != undefined && !this.state.setup.expansions.includes(civ.expansion)) {
         return false

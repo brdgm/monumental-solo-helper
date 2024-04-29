@@ -64,7 +64,7 @@ export default class CardDeck {
   public draw() : Card {
     // shuffle draw pile if empty (should normally never happen)
     if (this._drawPile.length == 0) {
-      this.shuffleDiscardDrawPile();
+      this.shuffleDiscardDrawPile()
       if (this._drawPile.length == 0) {
         throw new Error('Discard and draw pile is empty.')
       }

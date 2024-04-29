@@ -163,7 +163,7 @@ export default defineComponent({
       }
     },
     displayedActionsPerCard() : Dictionary<BotCardAction[]> {
-      let actions = this.bot.actions;
+      let actions = this.bot.actions
       if (this.nextActionIndex != undefined) {
         actions = this.bot.actions.slice(0, this.nextActionIndex+1)
       }

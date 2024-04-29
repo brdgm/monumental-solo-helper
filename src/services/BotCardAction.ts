@@ -161,7 +161,7 @@ export default class BotCardAction {
           }
           this._skipped = true
         }
-        break;
+        break
       case Action.DEVELOP_1_CULTURAL_POLICY_2_GOLD_PER_POLICY:
         if (!this._bot.developCulturalPolicy()) {
           if (this.goldCost == 0) {
@@ -175,30 +175,30 @@ export default class BotCardAction {
           this._skipped = true
         }
         this._gold += this._bot.culturalPolicies * 2
-        break;
+        break
       case Action.GAIN_3_GOLD:
         this._gold += 3
-        break;
+        break
       case Action.SHUFFLE_CARDS:
         this._bot.shuffleCards()
-        break;
+        break
       case Action.DRAW_CARD:
         this._bot.drawCard()
-        break;
+        break
       case Action.ATLANTIS_NEXUS_PLACE_NEXT_USE_ALL:
         this._bot.drawCardToNexusUseAll()
-        break;
+        break
       case Action.CHINA_DRAW_UNTIL_TECHNOLOGICAL_ACTION:
         this._bot.drawCard(card => {
           return { accept: this.isCardCivilizationType(card, CivilizationType.TECHNOLOGICAL) }
         })
-        break;
+        break
       case Action.EGYPT_DRAW_CARD_GET_TWICE_ACTION_NON_SPECIAL:
         this._bot.drawCard(card => {
           const nonSpecialActions = card.actions.filter(action => action.ifType == undefined)
           return { actions: [...nonSpecialActions, ...nonSpecialActions] }
         })
-        break;
+        break
       case Action.GREECE_DRAW_GET_ACTION_SPECIAL:
         this._bot.drawCard(card => {
           // also not stated in rules explicitly, it would be unfair if greece draws an advanced card with no special action at all
@@ -207,12 +207,12 @@ export default class BotCardAction {
           const specialActions = card.actions.filter(action => action.ifType != undefined)
           return { accept: hasSpecialAction, actions: specialActions }
         })
-        break;
+        break
       case Action.MUGHALS_DRAW_NEXT_REMOVE_NON_ECONOMIC:
         this._bot.revealCardRemoveIfCondition(card => {
           return !this.isCardCivilizationType(card, CivilizationType.ECONOMIC)
         })
-        break;
+        break
     }
   }
 
