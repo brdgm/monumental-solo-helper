@@ -4,7 +4,7 @@ import DifficultyLevel from '@/services/enum/DifficultyLevel'
 import CivilizationName from '@/services/enum/CivilizationName'
 import Expansion from '@/services/enum/Expansion'
 import CardName from '@/services/enum/CardName'
-import toggleArrayItem from 'brdgm-commons/src/util/array/toggleArrayItem'
+import toggleArrayItem from '@brdgm/brdgm-commons/src/util/array/toggleArrayItem'
 import Action from '@/services/enum/Action'
 import { name } from '@/../package.json'
 
