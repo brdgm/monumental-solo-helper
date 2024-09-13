@@ -21,7 +21,6 @@
         </label>
       </div>
     </div>
-    <!--
     <div class="col-md-3 col-5">
       <img src="@/assets/game-monumental-african-empires.jpg" class="game selectable" :class="{disabled: !hasAfricanEmpires}"
           @click="toggleAfricanEmpires"/>
@@ -33,7 +32,6 @@
         </label>
       </div>
     </div>
-    -->
   </div>
 </template>
 
