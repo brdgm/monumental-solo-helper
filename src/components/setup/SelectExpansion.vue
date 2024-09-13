@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="col-md-3 col-5">
-      <img src="@/assets/game-monumental-african-empires.jpg" class="game selectable" :class="{disabled: !hasAfricanEmpires}"
+      <img src="@/assets/game-monumental-african-empires.jpg" class="game selectable" alt="" :class="{disabled: !hasAfricanEmpires}"
           @click="toggleAfricanEmpires"/>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="africanEmpiresEnabled"

@@ -57,7 +57,7 @@
     "title": "Non trouvé"
   },
   "civilization": {
-    "aksum": "Aksumites",
+    "aksumites": "Aksumites",
     "amazons": "Amazones",
     "atlantis": "Atlantes",
     "aztecs": "Aztèques",
@@ -66,7 +66,7 @@
     "egypt": "Égyptiens",
     "greece": "Grecs",
     "japan": "Japonais",
-    "mali": "Maliens",
+    "malians": "Maliens",
     "mughals": "Moghols",
     "zulu": "Zoulous"
   },

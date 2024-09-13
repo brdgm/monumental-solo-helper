@@ -17,10 +17,9 @@ const civilizations = [
   { name: CivilizationName.AZTECS, type: CivilizationType.CULTURAL, expansion: Expansion.LOST_KINGDOMS },
   { name: CivilizationName.MUGHALS, type: CivilizationType.ECONOMIC, expansion: Expansion.LOST_KINGDOMS },
   // african empires
-  // TODO: use correct civilization types
-  { name: CivilizationName.AKSUM, type: CivilizationType.ECONOMIC, expansion: Expansion.AFRICAN_EMPIRES },
-  { name: CivilizationName.MALI, type: CivilizationType.ECONOMIC, expansion: Expansion.AFRICAN_EMPIRES },
-  { name: CivilizationName.ZULU, type: CivilizationType.ECONOMIC, expansion: Expansion.AFRICAN_EMPIRES },
+  { name: CivilizationName.AKSUMITES, type: CivilizationType.TECHNOLOGICAL, expansion: Expansion.AFRICAN_EMPIRES },
+  { name: CivilizationName.MALIANS, type: CivilizationType.ECONOMIC, expansion: Expansion.AFRICAN_EMPIRES },
+  { name: CivilizationName.ZULU, type: CivilizationType.AGGRESSIVE, expansion: Expansion.AFRICAN_EMPIRES }
 ]
 
 const civilizationsMap = new Map<CivilizationName,Civilization>()
