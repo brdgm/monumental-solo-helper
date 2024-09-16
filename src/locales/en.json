@@ -15,12 +15,14 @@
       "lostKingdoms": "Lost Kingdoms",
       "africanEmpires": "African Empires"
     },
+    "selectModules": {
+      "title": "Modules"
+    },
     "difficultyLevel": {
       "title": "Difficulty Level",
       "easy": "Easy",
       "hard": "Hard",
-      "useCards": "Use no advanced action cards | Use 1 advanced action card | Use {count} advanced action cards",
-      "infoModules": "You can add the hero or monster module to make the game easier for human players. The bots cannot benefit from them."
+      "useCards": "Use no advanced action cards | Use 1 advanced action card | Use {count} advanced action cards"
     },
     "civilization": {
       "numberPlayers": "Total number of players",
@@ -143,6 +145,11 @@
     "monster": "Monster (only players)",
     "gold": "Gold / 3 (only bots)",
     "total": "Total VP"
+  },
+  "module": {
+    "monsters": "Monsters",
+    "heroes": "Heroes",
+    "quests": "Quests"
   },
   "action": {
     "playGame": "Play Game",

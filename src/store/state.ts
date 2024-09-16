@@ -7,6 +7,7 @@ import CardName from '@/services/enum/CardName'
 import toggleArrayItem from '@brdgm/brdgm-commons/src/util/array/toggleArrayItem'
 import Action from '@/services/enum/Action'
 import { name } from '@/../package.json'
+import Module from '@/services/enum/Module'
 
 export const useStateStore = defineStore(`${name}.store`, {
   state: () => {
@@ -16,6 +17,7 @@ export const useStateStore = defineStore(`${name}.store`, {
       setup: {
         difficultyLevel: DifficultyLevel.BEGINNER,
         expansions: [],
+        modules: [],
         civilizations: {
           numberPlayers: 2,
           numberHumanPlayers: 1,
@@ -79,6 +81,7 @@ export interface State {
 export interface Setup {
   difficultyLevel: DifficultyLevel
   expansions: Expansion[]
+  modules: Module[]
   civilizations: CivilizationSetup
 }
 export interface CivilizationSetup {

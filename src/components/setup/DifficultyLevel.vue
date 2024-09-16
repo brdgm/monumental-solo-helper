@@ -16,8 +16,7 @@
   <div class="row">
     <div class="offset-1 col-10">
       <p class="text-muted">
-        {{t('setup.difficultyLevel.useCards', { count: state.setup.difficultyLevel }, state.setup.difficultyLevel)}}<br/>
-        {{t('setup.difficultyLevel.infoModules')}}
+        {{t('setup.difficultyLevel.useCards', { count: state.setup.difficultyLevel }, state.setup.difficultyLevel)}}
       </p>
     </div>
   </div>  

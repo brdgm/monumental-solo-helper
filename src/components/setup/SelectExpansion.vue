@@ -40,6 +40,7 @@ import { defineComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStateStore } from '@/store/state'
 import Expansion from '@/services/enum/Expansion'
+import Module from '@/services/enum/Module';
 
 export default defineComponent({
   name: 'SelectExpansion',
@@ -62,6 +63,9 @@ export default defineComponent({
     },
     toggleAfricanEmpires() {
       this.state.setupToggleExpansionAfricanEmpires()
+      if (!this.hasAfricanEmpires) {
+        this.state.setup.modules = this.state.setup.modules.filter(module => module != Module.QUESTS)
+      }
     }
   }
 })

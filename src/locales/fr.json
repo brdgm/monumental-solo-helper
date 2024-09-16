@@ -19,8 +19,7 @@
       "title": "Niveau de difficulté",
       "easy": "Facile",
       "hard": "Difficile",
-      "useCards": "N'utilise pas de cartes Action Avancée | Utilise 1 carte Action Avancée | Utilise {count} cartes Action Avancée",
-      "infoModules": "Vous pouvez ajouter le module Héro ou Monstre pour facilité le jeu aux joueurs humains. Les Automas ne peuvent pas bénéficier de ces derniers."
+      "useCards": "N'utilise pas de cartes Action Avancée | Utilise 1 carte Action Avancée | Utilise {count} cartes Action Avancée"
     },
     "civilization": {
       "numberPlayers": "Nombre de joueurs total",
