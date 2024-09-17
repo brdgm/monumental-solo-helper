@@ -1,126 +1,130 @@
 <template> 
   <table class="scoringTable">
-    <tr>
-      <td class="text-muted text-start">{{t('scoring.playedRounds', {count:roundCount})}}</td>
-      <td v-for="(civilization,index) in playerCivilization" :key="civilization" colspan="2" class="civilization">
-        <CivilizationIconName :name="civilization"/>
-        <div class="small text-muted">{{t('roundPlayer.title', {player:index+1}, playerCount)}}</div>
-      </td>
-      <td v-for="(civilization,index) in botCivilization" :key="civilization" colspan="2" class="civilization">
-        <CivilizationIconName :name="civilization"/>
-        <div class="small text-muted">{{t('roundBot.title', {bot:index+1}, botCount)}}</div>
-      </td>
-    </tr>
-    <tr>
-      <th scope="row">{{t('scoring.knowledgeCards')}}</th>
-      <template v-for="playerIndex in playerCount" :key="playerIndex">
-        <td class="count"><input type="number" min="0" max="99" v-model="knowledgeCardCount[playerIndex-1]" @change="persist" @focus="inputSelectAll"></td>
-        <tdScore :value="knowledgeCardVP[playerIndex-1]" :dominance-value="knowledgeCardDominanceVP[playerIndex-1]"/>
-      </template>
-      <template v-for="botIndex in botCount" :key="botIndex">
-        <td class="count"><input type="number" min="0" max="99" v-model="knowledgeCardCount[botIndex+playerCount-1]" @change="persist" @focus="inputSelectAll"></td>
-        <tdScore :value="knowledgeCardVP[botIndex+playerCount-1]" :dominance-value="knowledgeCardDominanceVP[botIndex+playerCount-1]"/>
-      </template>
-    </tr>
-    <tr>
-      <th scope="row">{{t('scoring.wonderCards')}}</th>
-      <template v-for="playerIndex in playerCount" :key="playerIndex">
-        <td class="count"><input type="number" min="0" max="99" v-model="wonderCardCount[playerIndex-1]" @change="persist" @focus="inputSelectAll"></td>
-        <tdScore :value="wonderCardVP[playerIndex-1]" :dominance-value="wonderCardDominanceVP[playerIndex-1]"/>
-      </template>
-      <template v-for="botIndex in botCount" :key="botIndex">
-        <td class="count"><input type="number" min="0" max="99" v-model="wonderCardCount[botIndex+playerCount-1]" @change="persist" @focus="inputSelectAll"></td>
-        <tdScore :value="wonderCardVP[botIndex+playerCount-1]" :dominance-value="wonderCardDominanceVP[botIndex+playerCount-1]"/>
-      </template>
-    </tr>
-    <tr>
-      <th scope="row">{{t('scoring.culturalPolicies')}}</th>
-      <template v-for="playerIndex in playerCount" :key="playerIndex">
-        <td class="count"><input type="number" min="0" max="99" v-model="culturalPolicyCount[playerIndex-1]" @change="persist" @focus="inputSelectAll"></td>
-        <tdScore :value="culturalPolicyVP[playerIndex-1]" :dominance-value="culturalPolicyDominanceVP[playerIndex-1]"/>
-      </template>
-      <template v-for="botIndex in botCount" :key="botIndex">
-        <td class="count"><input type="number" min="0" max="99" v-model="culturalPolicyCount[botIndex+playerCount-1]" disabled></td>
-        <tdScore :value="culturalPolicyVP[botIndex+playerCount-1]" :dominance-value="culturalPolicyDominanceVP[botIndex+playerCount-1]"/>
-      </template>
-    </tr>
-    <tr>
-      <th scope="row">{{t('scoring.provinces')}}</th>
-      <template v-for="playerIndex in playerCount" :key="playerIndex">
-        <td class="count"><input type="number" min="0" max="99" v-model="provinceCount[playerIndex-1]" @change="persist" @focus="inputSelectAll"></td>
-        <tdScore :value="provinceVP[playerIndex-1]" :dominance-value="provinceDominanceVP[playerIndex-1]"/>
-      </template>
-      <template v-for="botIndex in botCount" :key="botIndex">
-        <td class="count"><input type="number" min="0" max="99" v-model="provinceCount[botIndex+playerCount-1]" @change="persist" @focus="inputSelectAll"></td>
-        <tdScore :value="provinceVP[botIndex+playerCount-1]" :dominance-value="provinceDominanceVP[botIndex+playerCount-1]"/>
-      </template>
-    </tr>
-    <tr v-if="hasMonstersModule">
-      <th scope="row">{{t('scoring.monster')}}</th>
-      <template v-for="playerIndex in playerCount" :key="playerIndex">
-        <td class="count"><input type="number" min="0" max="99" v-model="monsterCount[playerIndex-1]" @change="persist" @focus="inputSelectAll"></td>
-        <tdScore :value="monsterVP[playerIndex-1]"/>
-      </template>
-      <template v-for="botIndex in botCount" :key="botIndex">
-        <td class="count"><input type="number" min="0" max="99" v-model="monsterCount[botIndex+playerCount-1]" @change="persist" @focus="inputSelectAll"></td>
-        <tdScore :value="monsterVP[botIndex+playerCount-1]"/>
-      </template>
-    </tr>
-    <tr v-if="hasNaturalWondersModule">
-      <th scope="row">{{t('scoring.naturalWonders')}}</th>
-      <template v-for="playerIndex in playerCount" :key="playerIndex">
-        <td class="count"><input type="number" min="0" max="99" v-model="naturalWondersCount[playerIndex-1]" @change="persist" @focus="inputSelectAll"></td>
-        <tdScore :value="naturalWondersVP[playerIndex-1]"/>
-      </template>
-      <template v-for="botIndex in botCount" :key="botIndex">
-        <td class="count"><input type="number" min="0" max="99" v-model="naturalWondersCount[botIndex+playerCount-1]" @change="persist" @focus="inputSelectAll"></td>
-        <tdScore :value="naturalWondersVP[botIndex+playerCount-1]"/>
-      </template>
-    </tr>
-    <tr v-if="hasFutureEraModule">
-      <th scope="row">{{t('scoring.futureEra')}}</th>
-      <template v-for="playerIndex in playerCount" :key="playerIndex">
-        <td class="count"><input type="number" min="0" max="4" v-model="futureEraCount[playerIndex-1]" @change="persist" @focus="inputSelectAll"></td>
-        <tdScore :value="futureEraVP[playerIndex-1]"/>
-      </template>
-      <template v-for="botIndex in botCount" :key="botIndex">
-        <td class="count"><input type="number" min="0" max="4" v-model="futureEraCount[botIndex+playerCount-1]" @change="persist" @focus="inputSelectAll"></td>
-        <tdScore :value="futureEraVP[botIndex+playerCount-1]"/>
-      </template>
-    </tr>
-    <tr v-if="hasQuestsModule">
-      <th scope="row">{{t('scoring.quests')}}</th>
-      <template v-for="playerIndex in playerCount" :key="playerIndex">
-        <td class="count"><input type="number" min="0" max="2" v-model="questCount[playerIndex-1]" @change="persist" @focus="inputSelectAll"></td>
-        <tdScore :value="questVP[playerIndex-1]"/>
-      </template>
-      <template v-for="botIndex in botCount" :key="botIndex">
-        <td class="count"><input type="number" min="0" max="1" v-model="questCount[botIndex+playerCount-1]" @change="persist" @focus="inputSelectAll"></td>
-        <tdScore :value="questVP[botIndex+playerCount-1]"/>
-      </template>
-    </tr>
-    <tr>
-      <th scope="row">{{t('scoring.gold')}}</th>
-      <template v-for="playerIndex in playerCount" :key="playerIndex">
-        <td class="count"></td>
-        <td class="score"></td>
-      </template>
-      <template v-for="botIndex in botCount" :key="botIndex">
-        <td class="count"><input type="number" min="0" max="99" v-model="botGold[botIndex-1]" disabled></td>
-        <tdScore :value="goldVP[botIndex+playerCount-1]"/>
-      </template>
-    </tr>
-    <tr class="total">
-      <th scope="row">{{t('scoring.total')}}</th>
-      <template v-for="playerIndex in playerCount" :key="playerIndex">
-        <td class="count"></td>
-        <tdScore :value="totalVP[playerIndex-1]"/>
-      </template>
-      <template v-for="botIndex in botCount" :key="botIndex">
-        <td class="count"></td>
-        <tdScore :value="totalVP[botIndex+playerCount-1]"/>
-      </template>
-    </tr>
+    <thead>
+      <tr>
+        <td class="text-muted text-start">{{t('scoring.playedRounds', {count:roundCount})}}</td>
+        <td v-for="(civilization,index) in playerCivilization" :key="civilization" colspan="2" class="civilization">
+          <CivilizationIconName :name="civilization"/>
+          <div class="small text-muted">{{t('roundPlayer.title', {player:index+1}, playerCount)}}</div>
+        </td>
+        <td v-for="(civilization,index) in botCivilization" :key="civilization" colspan="2" class="civilization">
+          <CivilizationIconName :name="civilization"/>
+          <div class="small text-muted">{{t('roundBot.title', {bot:index+1}, botCount)}}</div>
+        </td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">{{t('scoring.knowledgeCards')}}</th>
+        <template v-for="playerIndex in playerCount" :key="playerIndex">
+          <td class="count"><input type="number" min="0" max="99" v-model="knowledgeCardCount[playerIndex-1]" @change="persist" @focus="inputSelectAll"></td>
+          <tdScore :value="knowledgeCardVP[playerIndex-1]" :dominance-value="knowledgeCardDominanceVP[playerIndex-1]"/>
+        </template>
+        <template v-for="botIndex in botCount" :key="botIndex">
+          <td class="count"><input type="number" min="0" max="99" v-model="knowledgeCardCount[botIndex+playerCount-1]" @change="persist" @focus="inputSelectAll"></td>
+          <tdScore :value="knowledgeCardVP[botIndex+playerCount-1]" :dominance-value="knowledgeCardDominanceVP[botIndex+playerCount-1]"/>
+        </template>
+      </tr>
+      <tr>
+        <th scope="row">{{t('scoring.wonderCards')}}</th>
+        <template v-for="playerIndex in playerCount" :key="playerIndex">
+          <td class="count"><input type="number" min="0" max="99" v-model="wonderCardCount[playerIndex-1]" @change="persist" @focus="inputSelectAll"></td>
+          <tdScore :value="wonderCardVP[playerIndex-1]" :dominance-value="wonderCardDominanceVP[playerIndex-1]"/>
+        </template>
+        <template v-for="botIndex in botCount" :key="botIndex">
+          <td class="count"><input type="number" min="0" max="99" v-model="wonderCardCount[botIndex+playerCount-1]" @change="persist" @focus="inputSelectAll"></td>
+          <tdScore :value="wonderCardVP[botIndex+playerCount-1]" :dominance-value="wonderCardDominanceVP[botIndex+playerCount-1]"/>
+        </template>
+      </tr>
+      <tr>
+        <th scope="row">{{t('scoring.culturalPolicies')}}</th>
+        <template v-for="playerIndex in playerCount" :key="playerIndex">
+          <td class="count"><input type="number" min="0" max="99" v-model="culturalPolicyCount[playerIndex-1]" @change="persist" @focus="inputSelectAll"></td>
+          <tdScore :value="culturalPolicyVP[playerIndex-1]" :dominance-value="culturalPolicyDominanceVP[playerIndex-1]"/>
+        </template>
+        <template v-for="botIndex in botCount" :key="botIndex">
+          <td class="count"><input type="number" min="0" max="99" v-model="culturalPolicyCount[botIndex+playerCount-1]" disabled></td>
+          <tdScore :value="culturalPolicyVP[botIndex+playerCount-1]" :dominance-value="culturalPolicyDominanceVP[botIndex+playerCount-1]"/>
+        </template>
+      </tr>
+      <tr>
+        <th scope="row">{{t('scoring.provinces')}}</th>
+        <template v-for="playerIndex in playerCount" :key="playerIndex">
+          <td class="count"><input type="number" min="0" max="99" v-model="provinceCount[playerIndex-1]" @change="persist" @focus="inputSelectAll"></td>
+          <tdScore :value="provinceVP[playerIndex-1]" :dominance-value="provinceDominanceVP[playerIndex-1]"/>
+        </template>
+        <template v-for="botIndex in botCount" :key="botIndex">
+          <td class="count"><input type="number" min="0" max="99" v-model="provinceCount[botIndex+playerCount-1]" @change="persist" @focus="inputSelectAll"></td>
+          <tdScore :value="provinceVP[botIndex+playerCount-1]" :dominance-value="provinceDominanceVP[botIndex+playerCount-1]"/>
+        </template>
+      </tr>
+      <tr v-if="hasMonstersModule">
+        <th scope="row">{{t('scoring.monster')}}</th>
+        <template v-for="playerIndex in playerCount" :key="playerIndex">
+          <td class="count"><input type="number" min="0" max="99" v-model="monsterCount[playerIndex-1]" @change="persist" @focus="inputSelectAll"></td>
+          <tdScore :value="monsterVP[playerIndex-1]"/>
+        </template>
+        <template v-for="botIndex in botCount" :key="botIndex">
+          <td class="count"><input type="number" min="0" max="99" v-model="monsterCount[botIndex+playerCount-1]" @change="persist" @focus="inputSelectAll"></td>
+          <tdScore :value="monsterVP[botIndex+playerCount-1]"/>
+        </template>
+      </tr>
+      <tr v-if="hasNaturalWondersModule">
+        <th scope="row">{{t('scoring.naturalWonders')}}</th>
+        <template v-for="playerIndex in playerCount" :key="playerIndex">
+          <td class="count"><input type="number" min="0" max="99" v-model="naturalWondersCount[playerIndex-1]" @change="persist" @focus="inputSelectAll"></td>
+          <tdScore :value="naturalWondersVP[playerIndex-1]"/>
+        </template>
+        <template v-for="botIndex in botCount" :key="botIndex">
+          <td class="count"><input type="number" min="0" max="99" v-model="naturalWondersCount[botIndex+playerCount-1]" @change="persist" @focus="inputSelectAll"></td>
+          <tdScore :value="naturalWondersVP[botIndex+playerCount-1]"/>
+        </template>
+      </tr>
+      <tr v-if="hasFutureEraModule">
+        <th scope="row">{{t('scoring.futureEra')}}</th>
+        <template v-for="playerIndex in playerCount" :key="playerIndex">
+          <td class="count"><input type="number" min="0" max="4" v-model="futureEraCount[playerIndex-1]" @change="persist" @focus="inputSelectAll"></td>
+          <tdScore :value="futureEraVP[playerIndex-1]"/>
+        </template>
+        <template v-for="botIndex in botCount" :key="botIndex">
+          <td class="count"><input type="number" min="0" max="4" v-model="futureEraCount[botIndex+playerCount-1]" @change="persist" @focus="inputSelectAll"></td>
+          <tdScore :value="futureEraVP[botIndex+playerCount-1]"/>
+        </template>
+      </tr>
+      <tr v-if="hasQuestsModule">
+        <th scope="row">{{t('scoring.quests')}}</th>
+        <template v-for="playerIndex in playerCount" :key="playerIndex">
+          <td class="count"><input type="number" min="0" max="2" v-model="questCount[playerIndex-1]" @change="persist" @focus="inputSelectAll"></td>
+          <tdScore :value="questVP[playerIndex-1]"/>
+        </template>
+        <template v-for="botIndex in botCount" :key="botIndex">
+          <td class="count"><input type="number" min="0" max="1" v-model="questCount[botIndex+playerCount-1]" @change="persist" @focus="inputSelectAll"></td>
+          <tdScore :value="questVP[botIndex+playerCount-1]"/>
+        </template>
+      </tr>
+      <tr>
+        <th scope="row">{{t('scoring.gold')}}</th>
+        <template v-for="playerIndex in playerCount" :key="playerIndex">
+          <td class="count"></td>
+          <td class="score"></td>
+        </template>
+        <template v-for="botIndex in botCount" :key="botIndex">
+          <td class="count"><input type="number" min="0" max="99" v-model="botGold[botIndex-1]" disabled></td>
+          <tdScore :value="goldVP[botIndex+playerCount-1]"/>
+        </template>
+      </tr>
+      <tr class="total">
+        <th scope="row">{{t('scoring.total')}}</th>
+        <template v-for="playerIndex in playerCount" :key="playerIndex">
+          <td class="count"></td>
+          <tdScore :value="totalVP[playerIndex-1]"/>
+        </template>
+        <template v-for="botIndex in botCount" :key="botIndex">
+          <td class="count"></td>
+          <tdScore :value="totalVP[botIndex+playerCount-1]"/>
+        </template>
+      </tr>
+    </tbody>
   </table>
 </template>
 
@@ -297,7 +301,7 @@ export default defineComponent({
 .scoringTable {
   width: 100%;
   border-collapse: collapse;
-  tr:nth-child(even) {
+  tbody tr:nth-child(odd) {
     background-color: #f2f2f2;
   }
   th, td {
