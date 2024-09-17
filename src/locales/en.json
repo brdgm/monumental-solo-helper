@@ -77,7 +77,8 @@
     "architectural": "Architectural",
     "cultural": "Cultural",
     "economic": "Economic",
-    "technological": "Technological"
+    "technological": "Technological",
+    "scientific": "Scientific"
   },
   "cardAction": {
     "wonder-complete-acquire-lowest-cost": "Complete 1 <b>Wonder</b>, or acquire a new Wonder with the <i>lowest</i> cost.",
