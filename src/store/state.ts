@@ -123,7 +123,10 @@ export interface ScoringPersistence {
   wonderCardCount: number[]
   culturalPolicyCountPlayer: number[]
   provinceCount: number[]
-  monsterCountPlayer: number[]
+  monsterCount: number[]
+  naturalWondersCount: number[]
+  futureEraCount: number[]
+  questCount: number[]
 }
 
 export interface RoundBotPayload {

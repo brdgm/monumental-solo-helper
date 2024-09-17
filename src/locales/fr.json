@@ -30,8 +30,8 @@
       "selectDifferentWarning": "Veuillez sélectionner {count} civilisations différentes." ,
       "botMaterial": {
         "title": "Préparez le matériel de l'Automa | Préparez le matériel pour les Automas",
-        "info1": "Placez toutes les unités dans la Capitale de l'Automa | Placez toutes les unités dans chacune des Capitales des Automas.",
-        "info2": "Cette application gère l'<b>Or</b>, la <b>Culture</b> et la pioche/défausse de <b>cartes Automa</b> pour les Automas."
+        "placeUnits": "Placez toutes les unités dans la Capitale de l'Automa | Placez toutes les unités dans chacune des Capitales des Automas.",
+        "applicationManage": "Cette application gère l'<b>Or</b>, la <b>Culture</b> et la pioche/défausse de <b>cartes Automa</b> pour les Automas."
       }
     }
   },

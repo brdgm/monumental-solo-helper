@@ -55,15 +55,48 @@
         <tdScore :value="provinceVP[botIndex+playerCount-1]" :dominance-value="provinceDominanceVP[botIndex+playerCount-1]"/>
       </template>
     </tr>
-    <tr>
+    <tr v-if="hasMonstersModule">
       <th scope="row">{{t('scoring.monster')}}</th>
       <template v-for="playerIndex in playerCount" :key="playerIndex">
         <td class="count"><input type="number" min="0" max="99" v-model="monsterCount[playerIndex-1]" @change="persist" @focus="inputSelectAll"></td>
-        <tdScore :value="monsterCount[playerIndex-1]"/>
+        <tdScore :value="monsterVP[playerIndex-1]"/>
       </template>
       <template v-for="botIndex in botCount" :key="botIndex">
-        <td class="count"></td>
-        <td class="score"></td>
+        <td class="count"><input type="number" min="0" max="99" v-model="monsterCount[botIndex+playerCount-1]" @change="persist" @focus="inputSelectAll"></td>
+        <tdScore :value="monsterVP[botIndex+playerCount-1]"/>
+      </template>
+    </tr>
+    <tr v-if="hasNaturalWondersModule">
+      <th scope="row">{{t('scoring.naturalWonders')}}</th>
+      <template v-for="playerIndex in playerCount" :key="playerIndex">
+        <td class="count"><input type="number" min="0" max="99" v-model="naturalWondersCount[playerIndex-1]" @change="persist" @focus="inputSelectAll"></td>
+        <tdScore :value="naturalWondersVP[playerIndex-1]"/>
+      </template>
+      <template v-for="botIndex in botCount" :key="botIndex">
+        <td class="count"><input type="number" min="0" max="99" v-model="naturalWondersCount[botIndex+playerCount-1]" @change="persist" @focus="inputSelectAll"></td>
+        <tdScore :value="naturalWondersVP[botIndex+playerCount-1]"/>
+      </template>
+    </tr>
+    <tr v-if="hasFutureEraModule">
+      <th scope="row">{{t('scoring.futureEra')}}</th>
+      <template v-for="playerIndex in playerCount" :key="playerIndex">
+        <td class="count"><input type="number" min="0" max="4" v-model="futureEraCount[playerIndex-1]" @change="persist" @focus="inputSelectAll"></td>
+        <tdScore :value="futureEraVP[playerIndex-1]"/>
+      </template>
+      <template v-for="botIndex in botCount" :key="botIndex">
+        <td class="count"><input type="number" min="0" max="4" v-model="futureEraCount[botIndex+playerCount-1]" @change="persist" @focus="inputSelectAll"></td>
+        <tdScore :value="futureEraVP[botIndex+playerCount-1]"/>
+      </template>
+    </tr>
+    <tr v-if="hasQuestsModule">
+      <th scope="row">{{t('scoring.quests')}}</th>
+      <template v-for="playerIndex in playerCount" :key="playerIndex">
+        <td class="count"><input type="number" min="0" max="2" v-model="questCount[playerIndex-1]" @change="persist" @focus="inputSelectAll"></td>
+        <tdScore :value="questVP[playerIndex-1]"/>
+      </template>
+      <template v-for="botIndex in botCount" :key="botIndex">
+        <td class="count"><input type="number" min="0" max="1" v-model="questCount[botIndex+playerCount-1]" @change="persist" @focus="inputSelectAll"></td>
+        <tdScore :value="questVP[botIndex+playerCount-1]"/>
       </template>
     </tr>
     <tr>
@@ -99,6 +132,7 @@ import { useStateStore } from '@/store/state'
 import CivilizationIconName from '@/components/structure/CivilizationIconName.vue'
 import tdScore from './ScoreCell.vue'
 import Bot from '@/services/Bot'
+import Module from '@/services/enum/Module'
 
 export default defineComponent({
   name: 'CivilizationScoring',
@@ -138,7 +172,10 @@ export default defineComponent({
     const wonderCardCount = ref(scoring?.wonderCardCount ?? fill(Array(playerCount+botCount),0))
     const culturalPolicyCount = ref([...scoring?.culturalPolicyCountPlayer ?? fill(Array(playerCount),0), ...botCulturalPolicies])
     const provinceCount = ref(scoring?.provinceCount ?? fill(Array(playerCount+botCount),0))
-    const monsterCount = ref([...scoring?.monsterCountPlayer ?? fill(Array(playerCount),0), ...fill(Array(botCount),0)])
+    const monsterCount = ref([...scoring?.monsterCount ?? fill(Array(playerCount+botCount),0)])
+    const naturalWondersCount = ref([...scoring?.naturalWondersCount ?? fill(Array(playerCount+botCount),0)])
+    const futureEraCount = ref([...scoring?.futureEraCount ?? fill(Array(playerCount+botCount),0)])
+    const questCount = ref([...scoring?.questCount ?? fill(Array(playerCount+botCount),0)])
 
     const knowledgeCardVP = computed({
       get: () => knowledgeCardCount.value,
@@ -176,6 +213,18 @@ export default defineComponent({
       get: () => monsterCount.value,
       set: (v) => v
     })
+    const naturalWondersVP = computed({
+      get: () => naturalWondersCount.value,
+      set: (v) => v
+    })
+    const futureEraVP = computed({
+      get: () => futureEraCount.value,
+      set: (v) => v
+    })
+    const questVP = computed({
+      get: () => questCount.value.map(c => c*2),
+      set: (v) => v
+    })
     const goldVP =  [...fill(Array(playerCount),0), ...botGold.map(gold => Math.floor(gold / 3))]
     const totalVP = computed({
       get: () => {
@@ -185,7 +234,11 @@ export default defineComponent({
               + wonderCardVP.value[i] + wonderCardDominanceVP.value[i]
               + culturalPolicyVP.value[i] + culturalPolicyDominanceVP.value[i]
               + provinceVP.value[i] + provinceDominanceVP.value[i]
-              + monsterVP.value[i] + goldVP[i]
+              + monsterVP.value[i]
+              + naturalWondersVP.value[i]
+              + futureEraVP.value[i]
+              + questVP.value[i]
+              + goldVP[i]
         }
         return result
       },
@@ -197,8 +250,26 @@ export default defineComponent({
       wonderCardCount, wonderCardVP, wonderCardDominanceVP,
       culturalPolicyCount, culturalPolicyVP, culturalPolicyDominanceVP,
       provinceCount, provinceVP, provinceDominanceVP,
-      monsterCount, botGold, goldVP,
+      monsterCount, monsterVP,
+      naturalWondersCount, naturalWondersVP,
+      futureEraCount, futureEraVP,
+      questCount, questVP,
+      botGold, goldVP,
       totalVP
+    }
+  },
+  computed: {
+    hasMonstersModule() : boolean {
+      return this.state.setup.modules.includes(Module.MONSTERS)
+    },
+    hasNaturalWondersModule() : boolean {
+      return this.state.setup.modules.includes(Module.NATURAL_WONDERS)
+    },
+    hasFutureEraModule() : boolean {
+      return this.state.setup.modules.includes(Module.FUTURE_ERA)
+    },
+    hasQuestsModule() : boolean {
+      return this.state.setup.modules.includes(Module.QUESTS)
     }
   },
   methods: {
@@ -208,7 +279,10 @@ export default defineComponent({
         wonderCardCount: this.wonderCardCount,
         culturalPolicyCountPlayer: this.culturalPolicyCount.slice(0, this.playerCount),
         provinceCount: this.provinceCount,
-        monsterCountPlayer: this.monsterCount.slice(0, this.playerCount)
+        monsterCount: this.monsterCount,
+        naturalWondersCount: this.naturalWondersCount,
+        futureEraCount: this.futureEraCount,
+        questCount: this.questCount
       }
     },
     inputSelectAll(event: Event) : void {

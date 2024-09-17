@@ -33,8 +33,9 @@
       "selectDifferentWarning": "Please select {count} different civilizations.",
       "botMaterial": {
         "title": "Prepare material for bot | Prepare material for bots",
-        "info1": "Place all units into the bot's city. | Place all units into each bot's city.",
-        "info2": "This application will manage the <b>gold</b>, <b>cultural policies</b> and the <b>Automa card deck</b> of the bots."
+        "placeUnits": "Place all units into the bot's city. | Place all units into each bot's city.",
+        "questCard": "Deal 1 Quest Card face up to each Automa player.",
+        "applicationManage": "This application will manage the <b>gold</b>, <b>cultural policies</b> and the <b>Automa card deck</b> of the bots."
       }
     }
   },
@@ -143,13 +144,18 @@
     "wonderCards": "Wonder Cards",
     "culturalPolicies": "Cultural Policies developed",
     "provinces": "Provinces controlled",
-    "monster": "Monster (only players)",
+    "monster": "Monster",
+    "naturalWonders": "Natural Wonders",
+    "futureEra": "Future Era Cards",
+    "quests": "Revealed Quests",
     "gold": "Gold / 3 (only bots)",
     "total": "Total VP"
   },
   "module": {
     "monsters": "Monsters",
     "heroes": "Heroes",
+    "natural-wonders": "Natural Wonders",
+    "future-era": "Future Era Cards",
     "quests": "Quests"
   },
   "action": {

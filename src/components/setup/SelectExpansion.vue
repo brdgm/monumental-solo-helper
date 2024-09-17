@@ -64,7 +64,7 @@ export default defineComponent({
     toggleAfricanEmpires() {
       this.state.setupToggleExpansionAfricanEmpires()
       if (!this.hasAfricanEmpires) {
-        this.state.setup.modules = this.state.setup.modules.filter(module => module != Module.QUESTS)
+        this.state.setup.modules = this.state.setup.modules.filter(module => ![Module.NATURAL_WONDERS,Module.FUTURE_ERA,Module.QUESTS].includes(module))
       }
     }
   }

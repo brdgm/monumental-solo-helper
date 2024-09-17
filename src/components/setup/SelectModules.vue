@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col">
       <div class="form-check form-switch" v-for="item of modules" :key="item">
-        <label class="form-check-label">
+        <label class="form-check-label" :class="{'text-muted':!isAvailable(item)}">
           <input class="form-check-input" type="checkbox" :checked="hasModule(item)" @input="toggleModule(item)" :disabled="!isAvailable(item)">
           {{t(`module.${item}`)}}
         </label>
@@ -51,7 +51,7 @@ export default defineComponent({
       toggleArrayItem(this.state.setup.modules, module)
     },
     isAvailable(module : Module) : boolean {
-      if (module === Module.QUESTS) {
+      if ([Module.NATURAL_WONDERS,Module.FUTURE_ERA,Module.QUESTS].includes(module)) {
         return this.hasAfricanEmpiresExpansion
       }
       return true
