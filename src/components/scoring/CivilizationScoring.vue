@@ -58,6 +58,17 @@
           <tdScore :value="provinceVP[botIndex+playerCount-1]" :dominance-value="provinceDominanceVP[botIndex+playerCount-1]"/>
         </template>
       </tr>
+      <tr v-if="hasAfricanEmpiresExpansion">
+        <th scope="row">{{t('scoring.tradeTrack')}}</th>
+        <template v-for="playerIndex in playerCount" :key="playerIndex">
+          <td class="count"><input type="number" min="0" max="28" v-model="tradeTrackSteps[playerIndex-1]" @change="persist" @focus="inputSelectAll"></td>
+          <tdScore :value="tradeTrackVP[playerIndex-1]" :dominance-value="tradeTrackDominanceVP[playerIndex-1]"/>
+        </template>
+        <template v-for="botIndex in botCount" :key="botIndex">
+          <td class="count"><input type="number" min="0" max="28" v-model="tradeTrackSteps[botIndex+playerCount-1]" @change="persist" @focus="inputSelectAll"></td>
+          <tdScore :value="tradeTrackVP[botIndex+playerCount-1]" :dominance-value="tradeTrackDominanceVP[botIndex+playerCount-1]"/>
+        </template>
+      </tr>
       <tr v-if="hasMonstersModule">
         <th scope="row">{{t('scoring.monster')}}</th>
         <template v-for="playerIndex in playerCount" :key="playerIndex">
@@ -137,6 +148,7 @@ import CivilizationIconName from '@/components/structure/CivilizationIconName.vu
 import tdScore from './ScoreCell.vue'
 import Bot from '@/services/Bot'
 import Module from '@/services/enum/Module'
+import Expansion from '@/services/enum/Expansion'
 
 export default defineComponent({
   name: 'CivilizationScoring',
@@ -176,6 +188,7 @@ export default defineComponent({
     const wonderCardCount = ref(scoring?.wonderCardCount ?? fill(Array(playerCount+botCount),0))
     const culturalPolicyCount = ref([...scoring?.culturalPolicyCountPlayer ?? fill(Array(playerCount),0), ...botCulturalPolicies])
     const provinceCount = ref(scoring?.provinceCount ?? fill(Array(playerCount+botCount),0))
+    const tradeTrackSteps = ref([...scoring?.tradeTrackSteps ?? fill(Array(playerCount+botCount),0)])
     const monsterCount = ref([...scoring?.monsterCount ?? fill(Array(playerCount+botCount),0)])
     const naturalWondersCount = ref([...scoring?.naturalWondersCount ?? fill(Array(playerCount+botCount),0)])
     const futureEraCount = ref([...scoring?.futureEraCount ?? fill(Array(playerCount+botCount),0)])
@@ -213,6 +226,14 @@ export default defineComponent({
       get: () => provinceCount.value.map(c => c>0 && c==max(provinceCount.value) ? 3 : 0),
       set: (v) => v
     })
+    const tradeTrackVP = computed({
+      get: () => tradeTrackSteps.value.map(c => Math.floor(c / 2)),
+      set: (v) => v
+    })
+    const tradeTrackDominanceVP = computed({
+      get: () => tradeTrackSteps.value.map(c => c>0 && c==max(tradeTrackSteps.value) ? 3 : 0),
+      set: (v) => v
+    })
     const monsterVP = computed({
       get: () => monsterCount.value,
       set: (v) => v
@@ -238,6 +259,7 @@ export default defineComponent({
               + wonderCardVP.value[i] + wonderCardDominanceVP.value[i]
               + culturalPolicyVP.value[i] + culturalPolicyDominanceVP.value[i]
               + provinceVP.value[i] + provinceDominanceVP.value[i]
+              + tradeTrackVP.value[i] + tradeTrackDominanceVP.value[i]
               + monsterVP.value[i]
               + naturalWondersVP.value[i]
               + futureEraVP.value[i]
@@ -254,6 +276,7 @@ export default defineComponent({
       wonderCardCount, wonderCardVP, wonderCardDominanceVP,
       culturalPolicyCount, culturalPolicyVP, culturalPolicyDominanceVP,
       provinceCount, provinceVP, provinceDominanceVP,
+      tradeTrackSteps, tradeTrackVP, tradeTrackDominanceVP,
       monsterCount, monsterVP,
       naturalWondersCount, naturalWondersVP,
       futureEraCount, futureEraVP,
@@ -263,6 +286,9 @@ export default defineComponent({
     }
   },
   computed: {
+    hasAfricanEmpiresExpansion() : boolean {
+      return this.state.setup.expansions.includes(Expansion.AFRICAN_EMPIRES)
+    },
     hasMonstersModule() : boolean {
       return this.state.setup.modules.includes(Module.MONSTERS)
     },
@@ -283,6 +309,7 @@ export default defineComponent({
         wonderCardCount: this.wonderCardCount,
         culturalPolicyCountPlayer: this.culturalPolicyCount.slice(0, this.playerCount),
         provinceCount: this.provinceCount,
+        tradeTrackSteps: this.tradeTrackSteps,
         monsterCount: this.monsterCount,
         naturalWondersCount: this.naturalWondersCount,
         futureEraCount: this.futureEraCount,

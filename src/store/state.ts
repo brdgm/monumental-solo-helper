@@ -123,6 +123,7 @@ export interface ScoringPersistence {
   wonderCardCount: number[]
   culturalPolicyCountPlayer: number[]
   provinceCount: number[]
+  tradeTrackSteps: number[]
   monsterCount: number[]
   naturalWondersCount: number[]
   futureEraCount: number[]
