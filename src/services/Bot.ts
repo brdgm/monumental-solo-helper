@@ -38,6 +38,10 @@ export default class Bot {
     return this._civilization
   }
 
+  public get cardDeck() : CardDeck {
+    return this._cardDeck
+  }
+
   public get goldInitial() : number {
     return this._gold
   }

@@ -83,6 +83,7 @@ export interface Setup {
   expansions: Expansion[]
   modules: Module[]
   civilizations: CivilizationSetup
+  debugMode?: boolean
 }
 export interface CivilizationSetup {
   numberPlayers: number

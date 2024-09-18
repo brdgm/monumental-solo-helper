@@ -60,7 +60,9 @@
       <GoldInfo :value="bot.goldTotal"/>
     </div>
   </div>
-  
+
+  <DebugInfo :bot="bot"/>
+
   <ModalDialog v-if="nextAction" id="chooseActionModal" :size-xl="true">
     <template #header>
       <h5 class="modal-title"><span v-html="t('cardAction.choose-action')"></span></h5>
@@ -100,11 +102,11 @@ import ActionText from './ActionText.vue'
 import GoldInfo from './GoldInfo.vue'
 import GoldEarned from './GoldEarned.vue'
 import ModalDialog from '@brdgm/brdgm-commons/src/components/structure/ModalDialog.vue'
-import CivilizationName from '@/services/enum/CivilizationName'
 import BotCardAction from '@/services/BotCardAction'
 import NavigationState from '@/util/NavigationState'
 import Action from '@/services/enum/Action'
 import CardName from '@/services/enum/CardName'
+import DebugInfo from './DebugInfo.vue'
 
 export default defineComponent({
   name: 'BotActions',
@@ -112,6 +114,7 @@ export default defineComponent({
     ActionText,
     GoldInfo,
     GoldEarned,
+    DebugInfo,
     ModalDialog
   },
   setup() {
@@ -123,7 +126,7 @@ export default defineComponent({
     const round = navigationState.round
     const botIndex = navigationState.botIndex
     const botCount = navigationState.botCount
-    const civilizationName = navigationState.civilizationName as string
+    const civilizationName = navigationState.civilizationName
 
     const botPersistence = state.rounds[round-1]?.bots[botIndex-1]
     let bot
@@ -139,7 +142,8 @@ export default defineComponent({
       }
     }
     if (!bot) {
-      bot = Bot.new(state.setup.difficultyLevel, civilizationName as CivilizationName, 2)
+      const { difficultyLevel, expansions, modules } = state.setup
+      bot = Bot.new(difficultyLevel, civilizationName!, 2, expansions, modules)
       bot.startRound()
       state.roundBot({ round: round, botIndex: botIndex, bot: bot.toPersistence() })
     }
