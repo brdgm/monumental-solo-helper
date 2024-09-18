@@ -420,4 +420,76 @@ describe('Bot', () => {
 
     expect(bot.goldTotal).to.eq(20)
   })
+
+  it('MALIANS.MALIANS_CIVILIZATION', () => {
+    const bot = setupBot(CivilizationName.MALIANS,
+      [CardName.MULTI_AUTOMA,CardName.TRADE_TRACK_IF_ECONOMIC,
+        CardName.KNOWLEDGE_IF_ARCHITECTURAL],
+      {gold:3})
+
+    bot.startRound()
+
+    expect(bot.actions.length).to.eq(3)
+    expect(bot.actions[0].action).to.eq(Action.GAIN_2_GOLD)
+    expect(bot.actions[0].completed).to.true   // GAIN_2_GOLD played automatically
+    expect(bot.actions[1].action).to.eq(Action.TRADE_TRACK_1_STEP)
+    expect(bot.actions[2].action).to.eq(Action.DRAW_CARD)
+
+    bot.actions[1].complete()
+    expect(bot.goldTotal).to.eq(5)
+
+    // next card was drawn automatically by action [2]
+    expect(bot.actions.length).to.eq(7)
+
+    bot.actions[3].complete()
+    bot.actions[4].complete()
+    bot.actions[5].complete()
+    bot.actions[6].complete()
+
+    expect(bot.goldTotal).to.eq(3)
+
+    // 2nd card of round was drawn
+    expect(bot.actions.length).to.eq(9)
+  })
+
+  it('AZTECS.GAIN_2_GOLD_PER_POLICY', () => {
+    const bot = setupBot(CivilizationName.AZTECS,
+      [CardName.TRADE_TRACK_IF_CULTURAL,CardName.KNOWLEDGE_IF_ARCHITECTURAL],
+      {gold:3,culturalPolicies:3})
+
+    bot.startRound()
+
+    expect(bot.actions.length).to.eq(4)
+    expect(bot.actions[0].action).to.eq(Action.TRADE_TRACK_1_STEP)
+    expect(bot.actions[1].action).to.eq(Action.TRADE_TRACK_1_STEP)
+    expect(bot.actions[2].action).to.eq(Action.TRADE_TRACK_1_STEP)
+    expect(bot.actions[3].action).to.eq(Action.GAIN_2_GOLD_PER_POLICY)
+
+    bot.actions[0].complete()
+    bot.actions[1].complete()  // gold cost 1
+    bot.actions[2].complete()  // gold cost 1
+
+    // gain 2 gold per 3 policies
+    expect(bot.goldTotal).to.eq(7)
+  })
+
+  it('AZTECS.REMOVE_CARD', () => {
+    const bot = setupBot(CivilizationName.AZTECS,
+      [CardName.TRADING_POST_1,CardName.KNOWLEDGE_IF_ARCHITECTURAL],
+      {gold:3})
+
+    bot.startRound()
+
+    expect(bot.actions.length).to.eq(2)
+    expect(bot.actions[0].action).to.eq(Action.BUILD_TRADING_POST)
+    expect(bot.actions[1].action).to.eq(Action.REMOVE_CARD)
+
+    expect(bot.cardDeck.openCards.map(card => card.name)).to.eql([CardName.TRADING_POST_1])
+
+    bot.actions[0].complete()
+
+    expect(bot.cardDeck.openCards.map(card => card.name)).to.eql([CardName.KNOWLEDGE_IF_ARCHITECTURAL])
+    expect(bot.cardDeck.discardPile.map(card => card.name)).to.eql([])  // card was removed
+  })
+
 })
