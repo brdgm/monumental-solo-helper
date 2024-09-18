@@ -3,7 +3,7 @@
   "home": {
     "title": "Monumental Solo Helper",
     "playAutoma": "Play the <b>Automa Module</b> of <a href='https://boardgamegeek.com/boardgame/248125/monumental' target='_blank' rel='noopener'><b>Monumental</b></a>.",
-    "requirements": "To play the Automa module you only need the base game, this helper application replaces the solo cards. You can play against up to 4 bots.",
+    "requirements": "To play the Automa module you only need the base game, this helper application replaces the solo cards. You can play against up to 4 bots (each using it's own Automa card deck).",
     "expansions": "The expansions <b>Lost Kingdoms</b> and <b>African Empires</b> are supported.",
     "feedback": "Discussion and Feedback:"
   },
