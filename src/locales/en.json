@@ -110,7 +110,7 @@
     "draw-reserve-card-3-gain-knowledge": "Draw the top 3 cards of the <b>Reserve deck</b> for the current Era. Gain any <b>Knowledge</b> cards for free, returning the remainder to the bottom of the deck.",
     "opponents-unrest-deck-discard": "Each other (human) player places 1 <b>Unrest</b> on their deck, and 1 Unrest in their discard pile.",
     "build-trading-post": "Build 1 <b>Trading Post</b> in the Province with one of your Explorers that is furthest from your Capital. Return that Explorer to your Capital, them move up the Trade track as usual.",
-    "take-return-hero": "Take 1 Hero of the current Era, otherwise take 1 Hero of the latest Era available. If you already have a Hero, return it.",
+    "take-return-hero": "Take 1 <b>Hero</b> of the current Era, otherwise take 1 Hero of the latest Era available. If you already have a Hero, return it.",
     "shuffle-cards": "Shuffle the Automa's card deck.",
     "draw-card": "<b>Draw</b> another card.",
     "remove-card": "<b>Remove</b> this card from the Automa deck.",
@@ -146,7 +146,15 @@
     },
     "moveExplorers": {
       "title": "Move both Explorers",
-      "text": "<p>The first Explorer moves to an adjacent Province in a direction towards the <b>nearest Market</b> whose token Automa doesn’t already have, and the second Explorer moves to an adjacent Province in a direction towards the <b>second closest</b>. If there are two equally valid choices, the province with a Production token is chosen. If there is still a choice, the player to the right of Automa chooses between the valid Provinces.</p><p>If the province has a Production token, Automa claims this token. Whenever it has 2 Production tokens, these are discarded to gain one Gold. If the Province has a Market, Automa claims the top token, revealing it and gaining Gold equal to the number of resources on the token. For example, if the token shows 4 Military, Automa gains 4 Gold.</p><p>Whenever Automa has a Market token from all Markets on the board, immediately discard all of Automa’s Market tokens, and return both Explorers to their Capital. They may move and collect Market tokens from all Markets again.</p>"
+      "text": "<p>Whenever the Automa moves an Explorer, move them towards the <b>closest Market, Monster, or Trading Post</b> controlled by another player (the human player(s) choose in case of a tie).</p><p>If there are no suitable remaining Monsters, Markets, or Trading Posts, then the Automa will aim towards maximizing its supply of Production and Science tokens.</p> <p>When an Automa's Explorer reaches a monster, they immediately defeat it, removing the monster and taking its card (earning the Automa 1 Point at the end of the game).</p><p>When an Automa's Explorer visits another player’s trading post, the Automa first gains 3 Gold, then gives 1 Gold to that player. Then the Automa’s Explorer returns to their Capital.</p>"
+    },
+    "tradeTrack": {
+      "title": "Trade track",
+      "text": "<p>If the Automa should gain a <b>Trade Benefit</b>, it earns 2 Gold instead.</p>"
+    },
+    "hero": {
+      "title": "Hero",
+      "text": "<p>The Automa takes an available Hero of the current Era – if there is no Hero matching that description, it takes the available Hero of the latest possible Era. If multiple Heroes fit the criterion, the Automa obtains the Hero furthest from the Development deck.</p><p>The Automa cannot own more than 1 Hero. If it takes this action while already owning a Hero, its previous Hero is immediately returned above the Development display after obtaining its new Hero.</p>"
     }
   },
   "gold": {
