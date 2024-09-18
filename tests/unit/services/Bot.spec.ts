@@ -2,6 +2,8 @@ import Bot from '@/services/Bot'
 import Action from '@/services/enum/Action'
 import CardName from '@/services/enum/CardName'
 import CivilizationName from '@/services/enum/CivilizationName'
+import Expansion from '@/services/enum/Expansion'
+import Module from '@/services/enum/Module'
 import { expect } from 'chai'
 
 interface BotSetupOptions {
@@ -28,7 +30,7 @@ const setupBot = function(civilization: CivilizationName, drawPile: CardName[],
 
 describe('Bot', () => {
   it('new', () => {
-    const bot = Bot.new(3, CivilizationName.GREECE, 2)
+    const bot = Bot.new(3, CivilizationName.GREECE, 2, [Expansion.AFRICAN_EMPIRES], [Module.HEROES])
 
     expect(bot.civilization.name).to.eq(CivilizationName.GREECE)
     expect(bot.goldTotal).to.eq(2)
@@ -211,7 +213,7 @@ describe('Bot', () => {
 
   it('AMAZONS.AMAZON_CIVILIZATION', () => {
     const bot = setupBot(CivilizationName.AMAZONS,
-      [CardName.AMAZON_CIVILIZATION,CardName.CULTURAL_POLICY_IF_AGGRESSIVE,CardName.KNOWLEDGE_IF_ARCHITECTURAL],
+      [CardName.MULTI_AUTOMA,CardName.CULTURAL_POLICY_IF_AGGRESSIVE,CardName.KNOWLEDGE_IF_ARCHITECTURAL],
       {gold:2})
 
     bot.startRound()
@@ -247,7 +249,7 @@ describe('Bot', () => {
 
   it('CHINA.CHINA_CIVILIZATION', () => {
     const bot = setupBot(CivilizationName.CHINA,
-      [CardName.CHINA_CIVILIZATION,CardName.CULTURAL_POLICY_IF_AGGRESSIVE,
+      [CardName.MULTI_AUTOMA,CardName.CULTURAL_POLICY_IF_AGGRESSIVE,
        CardName.ADVANCED_EXPLORERS_WONDER,CardName.EXPLORERS_IF_TECHNOLOGICAL],
        {gold:2})
 
@@ -265,7 +267,7 @@ describe('Bot', () => {
 
   it('EGYPT.CHINA_CIVILIZATION', () => {
     const bot = setupBot(CivilizationName.EGYPT,
-      [CardName.EGYPT_CIVILIZATION,CardName.CULTURAL_POLICY_IF_AGGRESSIVE,CardName.ADVANCED_EXPLORERS_WONDER],
+      [CardName.MULTI_AUTOMA,CardName.CULTURAL_POLICY_IF_AGGRESSIVE,CardName.ADVANCED_EXPLORERS_WONDER],
       {gold:2})
 
     bot.startRound()
@@ -284,7 +286,7 @@ describe('Bot', () => {
 
   it('GREECE.GREECE_CIVILIZATION', () => {
     const bot = setupBot(CivilizationName.GREECE,
-      [CardName.GREECE_CIVILIZATION,CardName.ADVANCED_EXPLORERS_WONDER,CardName.CULTURAL_POLICY_IF_AGGRESSIVE],
+      [CardName.MULTI_AUTOMA,CardName.ADVANCED_EXPLORERS_WONDER,CardName.CULTURAL_POLICY_IF_AGGRESSIVE],
       {gold:2})
 
     bot.startRound()
@@ -302,7 +304,7 @@ describe('Bot', () => {
 
   it('MUGHALS.MUGHALS_CIVILIZATION', () => {
     const bot = setupBot(CivilizationName.MUGHALS,
-      [CardName.MUGHALS_CIVILIZATION,CardName.ADVANCED_EXPLORERS_WONDER,CardName.KNOWLEDGE_IF_ARCHITECTURAL],
+      [CardName.MULTI_AUTOMA,CardName.ADVANCED_EXPLORERS_WONDER,CardName.KNOWLEDGE_IF_ARCHITECTURAL],
       {gold:2})
 
     bot.startRound()
@@ -320,7 +322,7 @@ describe('Bot', () => {
 
   it('JAPAN.JAPAN_CIVILIZATION.option.CONQUER_1_ADJACENT_LOWEST_COST', () => {
     const bot = setupBot(CivilizationName.JAPAN,
-      [CardName.JAPAN_CIVILIZATION,CardName.KNOWLEDGE_IF_ARCHITECTURAL],
+      [CardName.MULTI_AUTOMA,CardName.KNOWLEDGE_IF_ARCHITECTURAL],
       {gold:2})
 
     bot.startRound()
@@ -336,7 +338,7 @@ describe('Bot', () => {
 
   it('JAPAN.JAPAN_CIVILIZATION.option.DEVELOP_1_CULTURAL_POLICY', () => {
     const bot = setupBot(CivilizationName.JAPAN,
-      [CardName.JAPAN_CIVILIZATION,CardName.KNOWLEDGE_IF_ARCHITECTURAL],
+      [CardName.MULTI_AUTOMA,CardName.KNOWLEDGE_IF_ARCHITECTURAL],
       {gold:2})
 
     bot.startRound()
@@ -352,7 +354,7 @@ describe('Bot', () => {
 
   it('JAPAN.JAPAN_CIVILIZATION.option.DRAW_CARD', () => {
     const bot = setupBot(CivilizationName.JAPAN,
-      [CardName.JAPAN_CIVILIZATION,CardName.KNOWLEDGE_IF_ARCHITECTURAL],
+      [CardName.MULTI_AUTOMA,CardName.KNOWLEDGE_IF_ARCHITECTURAL],
       {gold:2})
 
     bot.startRound()
@@ -367,8 +369,8 @@ describe('Bot', () => {
 
   it('ATLANTIS.ATLANTIS_CIVILIZATION', () => {
     const bot = setupBot(CivilizationName.ATLANTIS,
-      [CardName.ATLANTIS_CIVILIZATION,CardName.KNOWLEDGE_IF_ARCHITECTURAL,
-        CardName.ATLANTIS_CIVILIZATION,CardName.CULTURAL_POLICY_IF_AGGRESSIVE],
+      [CardName.MULTI_AUTOMA,CardName.KNOWLEDGE_IF_ARCHITECTURAL,
+        CardName.MULTI_AUTOMA,CardName.CULTURAL_POLICY_IF_AGGRESSIVE],
       {gold:3})
 
     bot.startRound()

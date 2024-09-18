@@ -1,10 +1,11 @@
 import { shuffle, remove, random } from 'lodash'
 import Card from './Card'
 import Cards from './Cards'
-import CivilizationName from './enum/CivilizationName'
 import { CardDeckPersistence } from '@/store/state'
 import toCardNames from '@/util/toCardNames'
 import toCards from '@/util/toCards'
+import Expansion from './enum/Expansion'
+import Module from './enum/Module'
 
 export default class CardDeck {
 
@@ -116,12 +117,12 @@ export default class CardDeck {
   /**
    * Creates a shuffled new card deck with random advanced cards.
    */
-  public static new(numAdvancedCards: number, civilizationName: CivilizationName) : CardDeck {
+  public static new(numAdvancedCards: number,
+      expansions: Expansion[], modules: Module[]) : CardDeck {
     // prepare draw pile
     const drawPile : Card[] = []
-    drawPile.push(...Cards.getStandard())
-    drawPile.push(...CardDeck.pickRandomAdvancedCards(numAdvancedCards))
-    drawPile.push(Cards.getCivilization(civilizationName))
+    drawPile.push(...Cards.getStandard(expansions, modules))
+    drawPile.push(...CardDeck.pickRandomAdvancedCards(numAdvancedCards, expansions, modules))
     const cardDeck = new CardDeck(drawPile, [], [], [])
     cardDeck.shuffleDiscardDrawPile()
     return cardDeck
@@ -142,11 +143,12 @@ export default class CardDeck {
   /**
    * Randomly picks the given number of advanced cards.
    */
-  private static pickRandomAdvancedCards(numAdvancedCards: number) : Card[] {
+  private static pickRandomAdvancedCards(numAdvancedCards: number,
+      expansions: Expansion[], modules: Module[]) : Card[] {
     const advancedCards : Card[] = []
 
     if (numAdvancedCards > 0) {
-      const allAdvancedCards = Cards.getAdvanced()
+      const allAdvancedCards = Cards.getAdvanced(expansions, modules)
       if (numAdvancedCards >= allAdvancedCards.length) {
         advancedCards.push(...allAdvancedCards)
       }
