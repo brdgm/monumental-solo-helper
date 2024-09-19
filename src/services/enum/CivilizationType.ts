@@ -3,7 +3,6 @@ enum CivilizationType {
   ARCHITECTURAL = 'architectural',
   CULTURAL = 'cultural',
   ECONOMIC = 'economic',
-  TECHNOLOGICAL = 'technological',
-  SCIENTIFIC = 'scientific'
+  TECHNOLOGICAL = 'technological'
 }
 export default CivilizationType

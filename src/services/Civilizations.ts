@@ -17,7 +17,7 @@ const civilizations = [
   { name: CivilizationName.AZTECS, type: CivilizationType.CULTURAL, expansion: Expansion.LOST_KINGDOMS },
   { name: CivilizationName.MUGHALS, type: CivilizationType.ECONOMIC, expansion: Expansion.LOST_KINGDOMS },
   // african empires
-  { name: CivilizationName.AKSUMITES, type: CivilizationType.SCIENTIFIC, expansion: Expansion.AFRICAN_EMPIRES },
+  { name: CivilizationName.AKSUMITES, type: CivilizationType.TECHNOLOGICAL, expansion: Expansion.AFRICAN_EMPIRES },
   { name: CivilizationName.MALIANS, type: CivilizationType.ECONOMIC, expansion: Expansion.AFRICAN_EMPIRES },
   { name: CivilizationName.ZULU, type: CivilizationType.AGGRESSIVE, expansion: Expansion.AFRICAN_EMPIRES }
 ]
