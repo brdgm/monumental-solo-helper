@@ -24,12 +24,13 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useStore } from '@/store'
+import { useStateStore } from '@/store/state'
 import CivilizationIconName from '../structure/CivilizationIconName.vue'
 import CivilizationName from '@/services/enum/CivilizationName'
 import Civilization from '@/services/Civilization'
 import Civilizations from '@/services/Civilizations'
 import Expansion from '@/services/enum/Expansion'
+import getAllEnumValues from '@brdgm/brdgm-commons/src/util/enum/getAllEnumValues'
 
 export default defineComponent({
   name: 'SelectCivilization',
@@ -38,8 +39,8 @@ export default defineComponent({
   },
   setup() {
     const { t } = useI18n()
-    useStore()
-    return { t }
+    const state = useStateStore()
+    return { t, state }
   },
   props: {
     modelValue: {
@@ -67,7 +68,7 @@ export default defineComponent({
     civilizationExpansions() : (Expansion | undefined)[] {
       return [
         undefined,
-        ...this.$store.state.setup.expansions
+        ...getAllEnumValues(Expansion).filter(item => this.state.setup.expansions.includes(item))
       ]
     },
   },
@@ -87,3 +88,9 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="scss" scoped>
+.dropdown-item {
+  cursor: default;
+}
+</style>

@@ -1,6 +1,9 @@
 import Cards from '@/services/Cards'
 import CardName from '@/services/enum/CardName'
 import CivilizationName from '@/services/enum/CivilizationName'
+import Expansion from '@/services/enum/Expansion'
+import Module from '@/services/enum/Module'
+import getAllEnumValues from '@brdgm/brdgm-commons/src/util/enum/getAllEnumValues'
 import { expect } from 'chai'
 
 describe('Cards', () => {
@@ -12,20 +15,20 @@ describe('Cards', () => {
   })
 
   it('getStandard', () => {
-    const cards = Cards.getStandard()
-
-    expect(cards.length).eq(15)
+    expect(Cards.getStandard([], []).length).eq(16)
+    expect(Cards.getStandard([], [Module.HEROES]).length).eq(17)
+    expect(Cards.getStandard([Expansion.AFRICAN_EMPIRES], []).length).eq(23)
+    expect(Cards.getStandard([Expansion.AFRICAN_EMPIRES], [Module.HEROES]).length).eq(24)
   })
 
   it('getAdvanced', () => {
-    const cards = Cards.getAdvanced()
-
-    expect(cards.length).eq(4)
+    expect(Cards.getAdvanced([], []).length).eq(7)
+    expect(Cards.getAdvanced([Expansion.AFRICAN_EMPIRES], []).length).eq(8)
   })
 
   it('getCivilization', () => {
-    const card = Cards.getCivilization(CivilizationName.AMAZONS)
-
-    expect(card).not.undefined
+    getAllEnumValues(CivilizationName).forEach(civilizationName => {
+      expect(Cards.getCivilization(civilizationName), civilizationName).not.undefined
+    })
   })
 })

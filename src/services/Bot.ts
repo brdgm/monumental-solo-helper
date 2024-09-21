@@ -1,5 +1,5 @@
 import { reduce } from 'lodash'
-import { BotPersistence } from '@/store'
+import { BotPersistence } from '@/store/state'
 import CardDeck from './CardDeck'
 import Civilization from './Civilization'
 import Civilizations from './Civilizations'
@@ -8,6 +8,10 @@ import BotCardAction from './BotCardAction'
 import Card, { CardAction } from './Card'
 import toCardNames from '@/util/toCardNames'
 import toCards from '@/util/toCards'
+import CardName from './enum/CardName'
+import Cards from './Cards'
+import Expansion from './enum/Expansion'
+import Module from './enum/Module'
 
 export default class Bot {
 
@@ -32,6 +36,10 @@ export default class Bot {
 
   public get civilization() : Civilization {
     return this._civilization
+  }
+
+  public get cardDeck() : CardDeck {
+    return this._cardDeck
   }
 
   public get goldInitial() : number {
@@ -90,26 +98,31 @@ export default class Bot {
    */
   public drawCard(inspector? : (card: Card) => DrawCardInspection) : Card {
     this._cardDeck.discardAll()
-    const card = this._cardDeck.draw()
+    const drawnCard = this._cardDeck.draw()
+    let actualCard = drawnCard
+    if (actualCard.name == CardName.MULTI_AUTOMA) {
+      // Replace multi-automa card with actual civilization card
+      actualCard = Cards.getCivilization(this._civilization.name)
+    }
     let actions : CardAction[]
     if (inspector) {
-      const inspection = inspector(card)
+      const inspection = inspector(actualCard)
       if (inspection.accept ?? true) {
-        actions = inspection.actions ?? card.actions
+        actions = inspection.actions ?? actualCard.actions
       }
       else {
-        this._cardDeck.discardCard(card)
+        this._cardDeck.discardCard(drawnCard)
         return this.drawCard(inspector)
       }
     }
     else {
-      actions = this.filterByCivilizationType(card.actions)
+      actions = this.filterByCivilizationType(actualCard.actions)
     }
     const cardNumber = this._cardsDrawn.length + 1
     this.addActions(cardNumber, actions)
-    this._cardsDrawn.push(card)
+    this._cardsDrawn.push(drawnCard)
     this.checkNextActionPlayAutomatically()
-    return card
+    return actualCard
   }
 
   /**
@@ -226,9 +239,10 @@ export default class Bot {
   /**
    * Creates a new bot for a new game.
    */
-  public static new(numAdvancedCards: number, civilizationName: CivilizationName, gold: number) : Bot {
+  public static new(numAdvancedCards: number, civilizationName: CivilizationName, gold: number,
+      expansions: Expansion[], modules: Module[]) : Bot {
     const civilization = Civilizations.get(civilizationName)
-    const cardDeck = CardDeck.new(numAdvancedCards, civilizationName)
+    const cardDeck = CardDeck.new(numAdvancedCards, expansions, modules)
     return new Bot(civilization, cardDeck, gold, 0, [], [], 0)
   }
 

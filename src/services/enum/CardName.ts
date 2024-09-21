@@ -15,12 +15,25 @@ enum CardName {
   EXPLORERS_IF_TECHNOLOGICAL = 'explorers-if-technological',
   EXPLORERS_IF_ECONOMIC = 'explorers-if-economic',
   WONDER_IF_CULTURAL = 'wonder-if-cultural',
+  TRADE_TRACK_IF_ARCHITECTURAL = 'trade-track-if-architectural',
+  TRADE_TRACK_IF_CULTURAL = 'trade-track-if-cultural',
+  TRADE_TRACK_IF_ECONOMIC = 'trade-track-if-economic',
+  TRADE_TRACK_IF_TECHNOLOGICAL = 'trade-track-if-technological',
+  TRADE_TRACK_IF_AGGRESSIVE = 'trade-track-if-aggressive',
+  TRADING_POST_1 = 'trading-post-1',
+  TRADING_POST_2 = 'trading-post-2',
+  TAKE_HERO = 'take-hero',
   /* Advanced Action Cards */
   ADVANCED_EXPLORERS_KNOWLEDGE = 'advanced-explorers-knowledge',
   ADVANCED_EXPLORERS_CULTURAL_POLICY = 'advanced-explorers-cultural-policy',
   ADVANCED_EXPLORERS_WONDER = 'advanced-explorers-wonder',
   ADVANCED_EXPLORERS_CONQUER = 'advanced-explorers-conquer',
+  ADVANCED_FEWEST_WONDERS = 'advanced-fewest-wonders',
+  ADVANCED_FEWEST_CULTURAL_POLICIES = 'advanced-fewest-cultural-policies',
+  ADVANCED_LAST_TRADE_TRACK = 'advanced-last-trade-track',
+  ADVANCED_FEWEST_PROVINCES = 'advanced-fewest-provinces',
   /* Civilization Cards */
+  MULTI_AUTOMA = 'multi-automa',
   AMAZON_CIVILIZATION = 'amazon-civilization',
   ATLANTIS_CIVILIZATION = 'atlantis-civilization',
   AZTECS_CIVILIZATION = 'aztecs-civilization',
@@ -30,5 +43,8 @@ enum CardName {
   GREECE_CIVILIZATION = 'greece-civilization',
   JAPAN_CIVILIZATION = 'japan-civilization',
   MUGHALS_CIVILIZATION = 'mughals-civilization',
+  MALIANS_CIVILIZATION = 'malians-civilization',
+  ZULU_CIVILIZATION = 'zulu-civilization',
+  AKSUMITES_CIVILIZATION = 'aksumites-civilization'
 }
 export default CardName

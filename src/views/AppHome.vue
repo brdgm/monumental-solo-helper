@@ -8,9 +8,9 @@
 
   <h1>{{t('home.title')}}</h1>
 
-  <p v-html="t('home.play1')"></p>
-  <p v-html="t('home.play2')"></p>
-  <p v-html="t('home.play3')"></p>
+  <p v-html="t('home.playAutoma')"></p>
+  <p v-html="t('home.requirements')"></p>
+  <p v-html="t('home.expansions')"></p>
 
   <p class="text-muted fst-italic">
     {{t('home.feedback')}}

@@ -9,6 +9,9 @@ import { description, appDeployName } from './package.json'
 // https://vitejs.dev/config/
 export default defineConfig({
   base: `/${appDeployName}/`,
+  build: {
+    chunkSizeWarningLimit: 5242880
+  },
   plugins: [
     vue(),
     VitePWA({
@@ -17,7 +20,8 @@ export default defineConfig({
       filename: 'service-worker.js',
       // cache all asset imports
       workbox: {
-        globPatterns: ["**/*"]
+        globPatterns: ["**/*.{js,css,html,ico,svg,png,jpg,webp}"],
+        maximumFileSizeToCacheInBytes: 5242880
       },
       // include all static assets
       includeAssets: [

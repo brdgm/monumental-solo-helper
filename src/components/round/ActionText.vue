@@ -16,7 +16,7 @@
 import BotCardAction from '@/services/BotCardAction'
 import { defineComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
-import ModalDialog from 'brdgm-commons/src/components/structure/ModalDialog.vue'
+import ModalDialog from '@brdgm/brdgm-commons/src/components/structure/ModalDialog.vue'
 
 export default defineComponent({
   name: 'ActionText',

@@ -21,9 +21,8 @@
         </label>
       </div>
     </div>
-    <!--
     <div class="col-md-3 col-5">
-      <img src="@/assets/game-monumental-african-empires.jpg" class="game selectable" :class="{disabled: !hasAfricanEmpires}"
+      <img src="@/assets/game-monumental-african-empires.jpg" class="game selectable" alt="" :class="{disabled: !hasAfricanEmpires}"
           @click="toggleAfricanEmpires"/>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="africanEmpiresEnabled"
@@ -33,37 +32,40 @@
         </label>
       </div>
     </div>
-    -->
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useStore } from '@/store'
+import { useStateStore } from '@/store/state'
 import Expansion from '@/services/enum/Expansion'
+import Module from '@/services/enum/Module'
 
 export default defineComponent({
   name: 'SelectExpansion',
   setup() {
     const { t } = useI18n()
-    useStore()
-    return { t }
+    const state = useStateStore()
+    return { t, state }
   },
   computed: {
     hasLostKingdoms() : boolean {
-      return this.$store.state.setup.expansions.includes(Expansion.LOST_KINGDOMS)
+      return this.state.setup.expansions.includes(Expansion.LOST_KINGDOMS)
     },
     hasAfricanEmpires() : boolean {
-      return this.$store.state.setup.expansions.includes(Expansion.AFRICAN_EMPIRES)
+      return this.state.setup.expansions.includes(Expansion.AFRICAN_EMPIRES)
     }
   },
   methods: {
     toggleLostKingdoms() {
-      this.$store.commit('setupToggleExpansionLostKingdoms')
+      this.state.setupToggleExpansionLostKingdoms()
     },
     toggleAfricanEmpires() {
-      this.$store.commit('setupToggleExpansionAfricanEmpires')
+      this.state.setupToggleExpansionAfricanEmpires()
+      if (!this.hasAfricanEmpires) {
+        this.state.setup.modules = this.state.setup.modules.filter(module => ![Module.NATURAL_WONDERS,Module.FUTURE_ERA,Module.QUESTS,Module.LIMIT_TRADE_TRACK_CARDS].includes(module))
+      }
     }
   }
 })

@@ -43,20 +43,22 @@
 
   <h3 class="mt-4">{{t('setup.civilization.botMaterial.title', {}, numberPlayers-1)}}</h3>
   <ul>
-    <li v-html="t('setup.civilization.botMaterial.info1', {}, numberPlayers-1)"></li>
-    <li v-html="t('setup.civilization.botMaterial.info2')"></li>
+    <li v-html="t('setup.civilization.botMaterial.placeUnits', {}, numberPlayers-1)"></li>
+    <li v-if="hasQuestsModule" v-html="t('setup.civilization.botMaterial.questCard')"></li>
+    <li v-html="t('setup.civilization.botMaterial.applicationManage')"></li>
   </ul>
 
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { CivilizationSetup, useStore } from '@/store'
+import { CivilizationSetup, useStateStore } from '@/store/state'
 import SelectCivilization from './SelectCivilization.vue'
 import Expansion from '@/services/enum/Expansion'
 import CivilizationName from '@/services/enum/CivilizationName'
 import Civilizations from '@/services/Civilizations'
+import Module from '@/services/enum/Module'
 
 export default defineComponent({
   name: 'SelectCivilizations',
@@ -65,8 +67,14 @@ export default defineComponent({
   },
   setup() {
     const { t } = useI18n()
-    const store = useStore()
-    return { t, store }
+    const state = useStateStore()
+
+    const numberPlayers = ref(state.setup.civilizations.numberPlayers)
+    const numberHumanPlayers = ref(state.setup.civilizations.numberHumanPlayers)
+    const playerCivilization = ref([...state.setup.civilizations.playerCivilization])
+    const botCivilization = ref([...state.setup.civilizations.botCivilization])
+
+    return { t, state, numberPlayers, numberHumanPlayers, playerCivilization, botCivilization }
   },
   emits: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -76,22 +84,21 @@ export default defineComponent({
   },
   data() {
     return {
-      numberPlayers: this.$store.state.setup.civilizations.numberPlayers,
-      numberHumanPlayers: this.$store.state.setup.civilizations.numberHumanPlayers,
-      playerCivilization: [...this.$store.state.setup.civilizations.playerCivilization],
-      botCivilization: [...this.$store.state.setup.civilizations.botCivilization],
       valid: false
     }
   },
   computed: {
     hasLostKingdoms() : boolean {
-      return this.$store.state.setup.expansions.includes(Expansion.LOST_KINGDOMS)
+      return this.state.setup.expansions.includes(Expansion.LOST_KINGDOMS)
     },
     hasAfricanEmpires() : boolean {
-      return this.$store.state.setup.expansions.includes(Expansion.AFRICAN_EMPIRES)
+      return this.state.setup.expansions.includes(Expansion.AFRICAN_EMPIRES)
     },
     hasFivePlayers() : boolean {
       return this.hasLostKingdoms || this.hasAfricanEmpires
+    },
+    hasQuestsModule() : boolean {
+      return this.state.setup.modules.includes(Module.QUESTS)
     }
   },
   methods: {
@@ -146,7 +153,7 @@ export default defineComponent({
           playerCivilization: this.playerCivilization.slice(0, this.numberHumanPlayers),
           botCivilization: this.botCivilization.slice(0, this.numberPlayers - this.numberHumanPlayers)
         }
-        this.$store.commit('setupCivilizations', civilizations)
+        this.state.setup.civilizations = civilizations
       }
 
       this.valid = valid
@@ -158,9 +165,9 @@ export default defineComponent({
       }
       const civ = Civilizations.get(name)
       if (!civ) {
-        return false;
+        return false
       }
-      if (civ.expansion != undefined && !this.$store.state.setup.expansions.includes(civ.expansion)) {
+      if (civ.expansion != undefined && !this.state.setup.expansions.includes(civ.expansion)) {
         return false
       }
       return true

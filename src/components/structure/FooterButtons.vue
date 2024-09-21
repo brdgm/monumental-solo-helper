@@ -30,10 +30,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useStore } from '@/store'
+import { useStateStore } from '@/store/state'
 import { useRoute } from 'vue-router'
 import NavigationState from '@/util/NavigationState'
-import ModalDialog from 'brdgm-commons/src/components/structure/ModalDialog.vue'
+import ModalDialog from '@brdgm/brdgm-commons/src/components/structure/ModalDialog.vue'
 
 export default defineComponent({
   name: 'FooterButtons',
@@ -42,13 +42,13 @@ export default defineComponent({
   },
   setup() {
     const { t } = useI18n()
-    const store = useStore()
+    const state = useStateStore()
     const route = useRoute()
 
-    const navigationState = new NavigationState(route, store.state)
-    const roundView = (route.name=="RoundPlayer" || route.name=="RoundBot")
+    const navigationState = new NavigationState(route, state)
+    const roundView = (route.name=='RoundPlayer' || route.name=='RoundBot')
 
-    return { t, store, navigationState, roundView }
+    return { t, state, navigationState, roundView }
   },
   props: {
     endGameButtonType: {
@@ -66,7 +66,7 @@ export default defineComponent({
   },
   methods: {
     roundResetTurn() {
-      this.store.commit('roundResetTurn', {
+      this.state.roundResetTurn({
         round: this.navigationState.round,
         botIndex: this.navigationState.botIndex
       })
@@ -74,11 +74,11 @@ export default defineComponent({
     },
     endGame() {
       if (this.roundView) {
-        this.$router.push("/scoring")
+        this.$router.push('/scoring')
       }
       else {
-        this.store.commit('endGame')
-        this.$router.replace("/")
+        this.state.endGame()
+        this.$router.replace('/')
       }
     }
   }
