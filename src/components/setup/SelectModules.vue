@@ -3,8 +3,8 @@
   <div class="row">
     <div class="col">
       <div class="form-check form-switch form-check-inline" v-for="item of modules" :key="item">
-        <label class="form-check-label" :class="{'text-muted':!isAvailable(item)}">
-          <input class="form-check-input" type="checkbox" :checked="hasModule(item)" @input="toggleModule(item)" :disabled="!isAvailable(item)">
+        <input class="form-check-input" type="checkbox" :checked="hasModule(item)" @input="toggleModule(item)" :disabled="!isAvailable(item)" :id="`module-${item}`">
+        <label class="form-check-label" :class="{'text-muted':!isAvailable(item)}" :for="`module-${item}`">
           <span v-html="t(`module.${item}`)"></span>
         </label>
       </div>
@@ -51,7 +51,7 @@ export default defineComponent({
       toggleArrayItem(this.state.setup.modules, module)
     },
     isAvailable(module : Module) : boolean {
-      if ([Module.NATURAL_WONDERS,Module.FUTURE_ERA,Module.QUESTS].includes(module)) {
+      if ([Module.NATURAL_WONDERS,Module.FUTURE_ERA,Module.QUESTS,Module.LIMIT_TRADE_TRACK_CARDS].includes(module)) {
         return this.hasAfricanEmpiresExpansion
       }
       return true
