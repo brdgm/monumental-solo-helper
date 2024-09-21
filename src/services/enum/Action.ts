@@ -26,7 +26,7 @@ enum Action {
   DRAW_RESERVE_CARD_2_GAIN_WONDERS = 'draw-reserve-card-2-gain-wonders',
   DRAW_RESERVE_CARD_3_GAIN_KNOWLEDGE = 'draw-reserve-card-3-gain-knowledge',
   OPPONENTS_UNREST_DECK_DISCARD = 'opponents-unrest-deck-discard',
-  BUILD_TRADING_POST = 'build-trading-post',
+  BUILD_TRADING_POST_REMOVE_CARD = 'build-trading-post-remove-card',
   TAKE_RETURN_HERO = 'take-return-hero',
   SHUFFLE_CARDS = 'shuffle-cards',
   DRAW_CARD = 'draw-card',

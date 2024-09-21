@@ -480,9 +480,8 @@ describe('Bot', () => {
 
     bot.startRound()
 
-    expect(bot.actions.length).to.eq(2)
-    expect(bot.actions[0].action).to.eq(Action.BUILD_TRADING_POST)
-    expect(bot.actions[1].action).to.eq(Action.REMOVE_CARD)
+    expect(bot.actions.length).to.eq(1)
+    expect(bot.actions[0].action).to.eq(Action.BUILD_TRADING_POST_REMOVE_CARD)
 
     expect(bot.cardDeck.openCards.map(card => card.name)).to.eql([CardName.TRADING_POST_1])
 

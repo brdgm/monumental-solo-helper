@@ -35,7 +35,7 @@ export default class BotCardAction {
     Action.TRADE_TRACK_1_STEP,
     Action.TRADE_TRACK_2_STEP,
     Action.TRADE_TRACK_LAST_TRADE_TRACK_2_STEP,
-    Action.BUILD_TRADING_POST,
+    Action.BUILD_TRADING_POST_REMOVE_CARD,
     Action.AZTECS_SACRIFICE_GET_GOLD,
     Action.DENMARK_COASTAL_PROVINCES_GOLD
   ]
@@ -146,6 +146,9 @@ export default class BotCardAction {
     else if (options.actionOption) {
       throw new Error("Action can only be chosen for CHOOSE_ACTION action.")
     }
+    if (this.action == Action.BUILD_TRADING_POST_REMOVE_CARD) {
+      this.removeCardWithAction(Action.BUILD_TRADING_POST_REMOVE_CARD)
+    }
     if (options.goldEarned && !this.mayEarnGold()) {
       throw new Error('No gold can be earned with this action: ' + this.action)
     }
@@ -201,13 +204,7 @@ export default class BotCardAction {
         this._bot.drawCard()
         break
       case Action.REMOVE_CARD:
-        {
-          const cardToRemove = this._bot.cardDeck.openCards
-              .find(card => card.actions.map(cardAction => cardAction.action).find(action => action == Action.REMOVE_CARD) != undefined)
-          if (cardToRemove) {
-            this._bot.cardDeck.removeCard(cardToRemove)
-          }
-        }
+        this.removeCardWithAction(Action.REMOVE_CARD)
         break
       case Action.ATLANTIS_NEXUS_PLACE_NEXT_USE_ALL:
         this._bot.drawCardToNexusUseAll()
@@ -263,6 +260,18 @@ export default class BotCardAction {
   }
 
   /**
+   * Removes card of current open card that has the given action.
+   * @param actionOfCardToRemove Action
+   */
+  private removeCardWithAction(actionOfCardToRemove: Action) {
+    const cardToRemove = this._bot.cardDeck.openCards
+        .find(card => card.actions.map(cardAction => cardAction.action).find(action => action == actionOfCardToRemove) != undefined)
+    if (cardToRemove) {
+      this._bot.cardDeck.removeCard(cardToRemove)
+    }
+  }
+
+  /**
    * Gets persistence view of bot card action.
    */
   public toPersistence() : BotCardActionPersistence {
@@ -291,7 +300,7 @@ export default class BotCardAction {
       persistence.skipped,
       persistence.gold
     )
-  }  
+  }
 
 }
 

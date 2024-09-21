@@ -3,9 +3,11 @@
     <hr/>
     <p class="debug">
       <b>civilization: </b>{{bot.civilization.name}} ({{bot.civilization.type}})<br/>
-      <b v-if="cardDeck.openCards.length > 0">openCards</b>: 
-      <template v-for="card of cardDeck.openCards" :key="card">
-        {{getCard(card)}}<br/>
+      <template v-if="cardDeck.openCards.length > 0">
+        <b>openCards</b>: 
+        <template v-for="card of cardDeck.openCards" :key="card">
+          {{getCard(card)}}<br/>
+        </template>
       </template>
       <b>drawPile</b>: {{cardDeck.drawPile}}<br/>
       <b>discardPile</b>: {{cardDeck.discardPile}}<br/>

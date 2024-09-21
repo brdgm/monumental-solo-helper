@@ -108,7 +108,7 @@
     "draw-reserve-card-2-gain-wonders": "Draw the top 2 cards of the <b>Reserve deck</b> for the current Era. Gain any <b>Wonder</b> cards for free, returning the remainder to the bottom of the deck.",
     "draw-reserve-card-3-gain-knowledge": "Draw the top 3 cards of the <b>Reserve deck</b> for the current Era. Gain any <b>Knowledge</b> cards for free, returning the remainder to the bottom of the deck.",
     "opponents-unrest-deck-discard": "Each other (human) player places 1 <b>Unrest</b> on their deck, and 1 Unrest in their discard pile.",
-    "build-trading-post": "Build 1 <b>Trading Post</b> in the Province with one of your Explorers that is furthest from your Capital. Return that Explorer to your Capital, them move up the Trade track as usual.",
+    "build-trading-post-remove-card": "Build 1 <b>Trading Post</b> in the Province with one of your Explorers that is furthest from your Capital. Return that Explorer to your Capital, them move up the Trade track as usual. Then this card is removed from the Automa deck.",
     "take-return-hero": "Take 1 <b>Hero</b> of the current Era, otherwise take 1 Hero of the latest Era available. If you already have a Hero, return it.",
     "shuffle-cards": "Shuffle the Automa's card deck.",
     "draw-card": "<b>Draw</b> another card.",

@@ -137,12 +137,10 @@ const cards : Card[] = [
     { action: Action.OPPONENTS_UNREST_DECK_DISCARD, ifType: CivilizationType.AGGRESSIVE },
   ]},
   { name: CardName.TRADING_POST_1, expansion:Expansion.AFRICAN_EMPIRES, actions: [
-    { action: Action.BUILD_TRADING_POST },
-    { action: Action.REMOVE_CARD }
+    { action: Action.BUILD_TRADING_POST_REMOVE_CARD }
   ]},
   { name: CardName.TRADING_POST_2, expansion:Expansion.AFRICAN_EMPIRES, actions: [
-    { action: Action.BUILD_TRADING_POST },
-    { action: Action.REMOVE_CARD }
+    { action: Action.BUILD_TRADING_POST_REMOVE_CARD }
   ]},
   { name: CardName.TAKE_HERO, module:Module.HEROES, actions: [
     { action: Action.TAKE_RETURN_HERO },
