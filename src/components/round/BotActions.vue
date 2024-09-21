@@ -23,6 +23,13 @@
     <div class="action row" v-for="(action, index) in cardActions" :key="index">
       <div class="col-10 col-md-6" :class="{skipped: action.skipped}">
         <ActionText :action="action" :index="cardIndex+'_'+index"/>
+        <div v-if="isFewestCulturalPolicies(action)" class="fst-italic small">
+          {{t(`civilization.${bot.civilization.name}`)}}: {{t('roundBot.culturalPolicyCount', {number: bot.culturalPolicies}, bot.culturalPolicies)}}
+          <span v-for="(otherBot,index) of getOtherBots()" :key="index">
+            <span>, </span>
+            {{t(`civilization.${otherBot.civilization.name}`)}}: {{t('roundBot.culturalPolicyCount', {number: otherBot.culturalPolicies}, otherBot.culturalPolicies)}}
+          </span>
+        </div>
       </div>
       <div class="col-1 order-md-5">
         <template v-if="action.completed">
@@ -207,6 +214,24 @@ export default defineComponent({
     },
     isChooseAction(action : BotCardAction) {
       return action.action == Action.CHOOSE_ACTION
+    },
+    isFewestCulturalPolicies(action : BotCardAction) : boolean {
+      return action.action == Action.FEWEST_CULTURAL_POLICIES_DEVELOP_1_CULTURAL_POLICY
+    },
+    getOtherBots() : Bot[] {
+      const result : Bot[] = []
+      for (let botIndex = 1; botIndex<=this.botCount; botIndex++) {
+        if (botIndex != this.botIndex) {
+          let botPersistence = this.state.rounds[this.round-1]?.bots[botIndex-1]
+          if (!botPersistence) {
+            botPersistence = this.state.rounds[this.round-2]?.bots[botIndex-1]
+          }
+          if (botPersistence) {
+            result.push(Bot.fromPersistence(botPersistence))
+          }
+        }
+      }
+      return result
     }
   }
 })

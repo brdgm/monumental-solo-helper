@@ -50,6 +50,7 @@
     "culturalPolicies": "Cultural Policies",
     "goldCost": "Gold cost: {number}.",
     "nexus": "Nexus",
+    "culturalPolicyCount": "{number} Cultural Policy | {number} Cultural Policies",
     "action": {
       "complete": "Done",
       "notPossible": "Not Possible",
