@@ -137,6 +137,10 @@
       </tr>
     </tbody>
   </table>
+
+  <p class="mt-3 small fst-italic">
+    {{t(`setup.difficultyLevel.useCards`, {count: state.setup.difficultyLevel}, state.setup.difficultyLevel)}}
+  </p>
 </template>
 
 <script lang="ts">
