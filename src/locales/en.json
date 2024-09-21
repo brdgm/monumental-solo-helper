@@ -180,7 +180,8 @@
     "heroes": "Heroes",
     "natural-wonders": "Natural Wonders",
     "future-era": "Future Era Cards",
-    "quests": "Quests"
+    "quests": "Quests",
+    "limit-trade-track-cards": "Limit to 2 Automa Trade Track cards (<a href='https://boardgamegeek.com/thread/3290654' target='_blank' rel='noopener'>see BGG</a>)"
   },
   "action": {
     "playGame": "Play Game",

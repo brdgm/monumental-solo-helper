@@ -2,10 +2,10 @@
   <h3 class="mt-4 mb-3">{{t('setup.selectModules.title')}}</h3>
   <div class="row">
     <div class="col">
-      <div class="form-check form-switch" v-for="item of modules" :key="item">
+      <div class="form-check form-switch form-check-inline" v-for="item of modules" :key="item">
         <label class="form-check-label" :class="{'text-muted':!isAvailable(item)}">
           <input class="form-check-input" type="checkbox" :checked="hasModule(item)" @input="toggleModule(item)" :disabled="!isAvailable(item)">
-          {{t(`module.${item}`)}}
+          <span v-html="t(`module.${item}`)"></span>
         </label>
       </div>
     </div>

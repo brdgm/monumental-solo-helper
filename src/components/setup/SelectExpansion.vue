@@ -40,7 +40,7 @@ import { defineComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStateStore } from '@/store/state'
 import Expansion from '@/services/enum/Expansion'
-import Module from '@/services/enum/Module';
+import Module from '@/services/enum/Module'
 
 export default defineComponent({
   name: 'SelectExpansion',
