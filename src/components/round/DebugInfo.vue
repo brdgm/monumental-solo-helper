@@ -21,9 +21,9 @@ import { defineComponent, PropType } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { CardDeckPersistence, useStateStore } from '@/store/state'
 import Bot from '@/services/Bot'
-import Cards from '@/services/Cards';
-import Card from '@/services/Card';
-import CardName from '@/services/enum/CardName';
+import Cards from '@/services/Cards'
+import Card from '@/services/Card'
+import CardName from '@/services/enum/CardName'
 
 export default defineComponent({
   name: 'DebugInfo',

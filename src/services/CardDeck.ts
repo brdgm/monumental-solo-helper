@@ -7,6 +7,7 @@ import toCards from '@/util/toCards'
 import Expansion from './enum/Expansion'
 import Module from './enum/Module'
 import { ref } from 'vue'
+import Action from './enum/Action'
 
 export default class CardDeck {
 
@@ -122,8 +123,15 @@ export default class CardDeck {
       expansions: Expansion[], modules: Module[]) : CardDeck {
     // prepare draw pile
     const drawPile : Card[] = []
-    drawPile.push(...Cards.getStandard(expansions, modules))
-    drawPile.push(...CardDeck.pickRandomAdvancedCards(numAdvancedCards, expansions, modules))
+
+    const standardCards = Cards.getStandard(expansions, modules)
+    if (modules.includes(Module.LIMIT_TRADE_TRACK_CARDS)) {
+      drawPile.push(...limitTradeTrackCardsTo2(standardCards))
+    }
+    else {
+      drawPile.push(...standardCards)
+    }
+    drawPile.push(...pickRandomAdvancedCards(numAdvancedCards, expansions, modules))
     const cardDeck = new CardDeck(drawPile, [], [], [])
     cardDeck.shuffleDiscardDrawPile()
     return cardDeck
@@ -141,30 +149,52 @@ export default class CardDeck {
     )
   }
 
-  /**
-   * Randomly picks the given number of advanced cards.
-   */
-  private static pickRandomAdvancedCards(numAdvancedCards: number,
-      expansions: Expansion[], modules: Module[]) : Card[] {
-    const advancedCards : Card[] = []
+}
 
-    if (numAdvancedCards > 0) {
-      const allAdvancedCards = Cards.getAdvanced(expansions, modules)
-      if (numAdvancedCards >= allAdvancedCards.length) {
-        advancedCards.push(...allAdvancedCards)
+/**
+ * Limits AI cards with 3 trade track steps to a random set of 2 (of 5).
+ * @param cards Cards
+ * @returns Filtered cards
+ */
+function limitTradeTrackCardsTo2(cards: Card[]) : Card[] {
+  let tradeTrackCardCount = 0
+  const result : Card[] = []
+  const shuffledCards = shuffle(cards)
+  shuffledCards.forEach(card => {
+    const isTradeTrackCard = card.actions.filter(action => action.action == Action.TRADE_TRACK_1_STEP).length == 3
+    if (isTradeTrackCard) {
+      tradeTrackCardCount++
+      if (tradeTrackCardCount > 2) {
+        return
       }
-      else {
-        while (advancedCards.length < numAdvancedCards) {
-          const randomIndex = random(allAdvancedCards.length - 1)
-          const advancedCard = allAdvancedCards[randomIndex]
-          if (!advancedCards.includes(advancedCard)) {
-            advancedCards.push(advancedCard)
-          }
+    }
+    result.push(card)
+  })
+  return result
+}
+
+/**
+ * Randomly picks the given number of advanced cards.
+ */
+function pickRandomAdvancedCards(numAdvancedCards: number,
+    expansions: Expansion[], modules: Module[]) : Card[] {
+  const advancedCards : Card[] = []
+
+  if (numAdvancedCards > 0) {
+    const allAdvancedCards = Cards.getAdvanced(expansions, modules)
+    if (numAdvancedCards >= allAdvancedCards.length) {
+      advancedCards.push(...allAdvancedCards)
+    }
+    else {
+      while (advancedCards.length < numAdvancedCards) {
+        const randomIndex = random(allAdvancedCards.length - 1)
+        const advancedCard = allAdvancedCards[randomIndex]
+        if (!advancedCards.includes(advancedCard)) {
+          advancedCards.push(advancedCard)
         }
       }
     }
-
-    return advancedCards
   }
 
+  return advancedCards
 }
