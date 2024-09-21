@@ -21,9 +21,8 @@
         </label>
       </div>
     </div>
-    <!--
     <div class="col-md-3 col-5">
-      <img src="@/assets/game-monumental-african-empires.jpg" class="game selectable" :class="{disabled: !hasAfricanEmpires}"
+      <img src="@/assets/game-monumental-african-empires.jpg" class="game selectable" alt="" :class="{disabled: !hasAfricanEmpires}"
           @click="toggleAfricanEmpires"/>
       <div class="form-check">
         <input class="form-check-input" type="checkbox" id="africanEmpiresEnabled"
@@ -33,7 +32,6 @@
         </label>
       </div>
     </div>
-    -->
   </div>
 </template>
 
@@ -42,6 +40,7 @@ import { defineComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStateStore } from '@/store/state'
 import Expansion from '@/services/enum/Expansion'
+import Module from '@/services/enum/Module';
 
 export default defineComponent({
   name: 'SelectExpansion',
@@ -64,6 +63,9 @@ export default defineComponent({
     },
     toggleAfricanEmpires() {
       this.state.setupToggleExpansionAfricanEmpires()
+      if (!this.hasAfricanEmpires) {
+        this.state.setup.modules = this.state.setup.modules.filter(module => ![Module.NATURAL_WONDERS,Module.FUTURE_ERA,Module.QUESTS].includes(module))
+      }
     }
   }
 })

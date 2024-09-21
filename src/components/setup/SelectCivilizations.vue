@@ -43,8 +43,9 @@
 
   <h3 class="mt-4">{{t('setup.civilization.botMaterial.title', {}, numberPlayers-1)}}</h3>
   <ul>
-    <li v-html="t('setup.civilization.botMaterial.info1', {}, numberPlayers-1)"></li>
-    <li v-html="t('setup.civilization.botMaterial.info2')"></li>
+    <li v-html="t('setup.civilization.botMaterial.placeUnits', {}, numberPlayers-1)"></li>
+    <li v-if="hasQuestsModule" v-html="t('setup.civilization.botMaterial.questCard')"></li>
+    <li v-html="t('setup.civilization.botMaterial.applicationManage')"></li>
   </ul>
 
 </template>
@@ -57,6 +58,7 @@ import SelectCivilization from './SelectCivilization.vue'
 import Expansion from '@/services/enum/Expansion'
 import CivilizationName from '@/services/enum/CivilizationName'
 import Civilizations from '@/services/Civilizations'
+import Module from '@/services/enum/Module'
 
 export default defineComponent({
   name: 'SelectCivilizations',
@@ -94,6 +96,9 @@ export default defineComponent({
     },
     hasFivePlayers() : boolean {
       return this.hasLostKingdoms || this.hasAfricanEmpires
+    },
+    hasQuestsModule() : boolean {
+      return this.state.setup.modules.includes(Module.QUESTS)
     }
   },
   methods: {

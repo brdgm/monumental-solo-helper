@@ -1,5 +1,5 @@
 enum CivilizationName {
-  AKSUM = 'aksum',
+  AKSUMITES = 'aksumites',
   AMAZONS = 'amazons',
   ATLANTIS = 'atlantis',
   AZTECS = 'aztecs',
@@ -8,7 +8,7 @@ enum CivilizationName {
   EGYPT = 'egypt',
   GREECE = 'greece',
   JAPAN = 'japan',
-  MALI = 'mali',
+  MALIANS = 'malians',
   MUGHALS = 'mughals',
   ZULU = 'zulu'
 }

@@ -1,39 +1,41 @@
 import { shuffle, remove, random } from 'lodash'
 import Card from './Card'
 import Cards from './Cards'
-import CivilizationName from './enum/CivilizationName'
 import { CardDeckPersistence } from '@/store/state'
 import toCardNames from '@/util/toCardNames'
 import toCards from '@/util/toCards'
+import Expansion from './enum/Expansion'
+import Module from './enum/Module'
+import { ref } from 'vue'
 
 export default class CardDeck {
 
-  private _drawPile : Card[]
-  private _discardPile : Card[] = []
-  private _openCards: Card[]
-  private _nexusCards: Card[]
+  private _drawPile
+  private _discardPile
+  private _openCards
+  private _nexusCards
 
   private constructor(drawPile : Card[], discardPile : Card[], openCards: Card[], nexusCards: Card[]) {
-    this._drawPile = drawPile
-    this._discardPile = discardPile
-    this._openCards = openCards
-    this._nexusCards = nexusCards
+    this._drawPile = ref(drawPile)
+    this._discardPile = ref(discardPile)
+    this._openCards = ref(openCards)
+    this._nexusCards = ref(nexusCards)
   }
 
   public get drawPile() : readonly Card[] {
-    return this._drawPile
+    return this._drawPile.value
   }
 
   public get discardPile() : readonly Card[] {
-    return this._discardPile
+    return this._discardPile.value
   }
 
   public get openCards() : readonly Card[] {
-    return this._openCards
+    return this._openCards.value
   }
 
   public get nexusCards() : readonly Card[] {
-    return this._nexusCards
+    return this._nexusCards.value
   }
 
   /**
@@ -41,10 +43,10 @@ export default class CardDeck {
    */
   public toPersistence() : CardDeckPersistence {
     return {
-      drawPile: toCardNames(this._drawPile),
-      discardPile: toCardNames(this._discardPile),
-      openCards: toCardNames(this._openCards),
-      nexusCards: toCardNames(this._nexusCards)
+      drawPile: toCardNames(this._drawPile.value),
+      discardPile: toCardNames(this._discardPile.value),
+      openCards: toCardNames(this._openCards.value),
+      nexusCards: toCardNames(this._nexusCards.value)
     }
   }
 
@@ -52,9 +54,9 @@ export default class CardDeck {
    * Shuffles discard and remaining draw pile into a new draw pile.
    */
   public shuffleDiscardDrawPile() : void {
-    this._drawPile.push(...this._discardPile)
-    this._discardPile = []
-    this._drawPile = shuffle(this._drawPile)
+    this._drawPile.value.push(...this._discardPile.value)
+    this._discardPile.value = []
+    this._drawPile.value = shuffle(this._drawPile.value)
   }
 
   /**
@@ -63,16 +65,16 @@ export default class CardDeck {
    */
   public draw() : Card {
     // shuffle draw pile if empty (should normally never happen)
-    if (this._drawPile.length == 0) {
+    if (this._drawPile.value.length == 0) {
       this.shuffleDiscardDrawPile()
-      if (this._drawPile.length == 0) {
+      if (this._drawPile.value.length == 0) {
         throw new Error('Discard and draw pile is empty.')
       }
     }
 
     // take 1st card from draw pile and add to open cards
-    const card = this._drawPile.shift() as Card
-    this._openCards.push(card)
+    const card = this._drawPile.value.shift() as Card
+    this._openCards.value.push(card)
 
     return card
   }
@@ -81,8 +83,8 @@ export default class CardDeck {
    * Discard all open cards to discard pile.
    */
   public discardAll() : void {
-    this._discardPile.push(...this._openCards)
-    this._openCards = []
+    this._discardPile.value.push(...this._openCards.value)
+    this._openCards.value = []
   }
 
   /**
@@ -90,8 +92,8 @@ export default class CardDeck {
    * @param card Card
    */
   public discardCard(card: Card) : void {
-    this._discardPile.push(card)
-    remove(this._openCards, c => c.name == card.name)
+    this._discardPile.value.push(card)
+    remove(this._openCards.value, c => c.name == card.name)
   }
 
   /**
@@ -99,8 +101,8 @@ export default class CardDeck {
    * @param card Card
    */
   public moveToNexus(card: Card) : void {
-    this._nexusCards.push(card)
-    remove(this._openCards, c => c.name == card.name)
+    this._nexusCards.value.push(card)
+    remove(this._openCards.value, c => c.name == card.name)
   }
 
   /**
@@ -108,20 +110,20 @@ export default class CardDeck {
    * @param card Card
    */
   public removeCard(card: Card) : void {
-    remove(this._drawPile, c => c.name == card.name)
-    remove(this._discardPile, c => c.name == card.name)
-    remove(this._openCards, c => c.name == card.name)
+    remove(this._drawPile.value, c => c.name == card.name)
+    remove(this._discardPile.value, c => c.name == card.name)
+    remove(this._openCards.value, c => c.name == card.name)
   }
 
   /**
    * Creates a shuffled new card deck with random advanced cards.
    */
-  public static new(numAdvancedCards: number, civilizationName: CivilizationName) : CardDeck {
+  public static new(numAdvancedCards: number,
+      expansions: Expansion[], modules: Module[]) : CardDeck {
     // prepare draw pile
     const drawPile : Card[] = []
-    drawPile.push(...Cards.getStandard())
-    drawPile.push(...CardDeck.pickRandomAdvancedCards(numAdvancedCards))
-    drawPile.push(Cards.getCivilization(civilizationName))
+    drawPile.push(...Cards.getStandard(expansions, modules))
+    drawPile.push(...CardDeck.pickRandomAdvancedCards(numAdvancedCards, expansions, modules))
     const cardDeck = new CardDeck(drawPile, [], [], [])
     cardDeck.shuffleDiscardDrawPile()
     return cardDeck
@@ -142,11 +144,12 @@ export default class CardDeck {
   /**
    * Randomly picks the given number of advanced cards.
    */
-  private static pickRandomAdvancedCards(numAdvancedCards: number) : Card[] {
+  private static pickRandomAdvancedCards(numAdvancedCards: number,
+      expansions: Expansion[], modules: Module[]) : Card[] {
     const advancedCards : Card[] = []
 
     if (numAdvancedCards > 0) {
-      const allAdvancedCards = Cards.getAdvanced()
+      const allAdvancedCards = Cards.getAdvanced(expansions, modules)
       if (numAdvancedCards >= allAdvancedCards.length) {
         advancedCards.push(...allAdvancedCards)
       }

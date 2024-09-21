@@ -2,6 +2,8 @@ import Bot from '@/services/Bot'
 import Action from '@/services/enum/Action'
 import CardName from '@/services/enum/CardName'
 import CivilizationName from '@/services/enum/CivilizationName'
+import Expansion from '@/services/enum/Expansion'
+import Module from '@/services/enum/Module'
 import { expect } from 'chai'
 
 interface BotSetupOptions {
@@ -28,7 +30,7 @@ const setupBot = function(civilization: CivilizationName, drawPile: CardName[],
 
 describe('Bot', () => {
   it('new', () => {
-    const bot = Bot.new(3, CivilizationName.GREECE, 2)
+    const bot = Bot.new(3, CivilizationName.GREECE, 2, [Expansion.AFRICAN_EMPIRES], [Module.HEROES])
 
     expect(bot.civilization.name).to.eq(CivilizationName.GREECE)
     expect(bot.goldTotal).to.eq(2)
@@ -211,7 +213,7 @@ describe('Bot', () => {
 
   it('AMAZONS.AMAZON_CIVILIZATION', () => {
     const bot = setupBot(CivilizationName.AMAZONS,
-      [CardName.AMAZON_CIVILIZATION,CardName.CULTURAL_POLICY_IF_AGGRESSIVE,CardName.KNOWLEDGE_IF_ARCHITECTURAL],
+      [CardName.MULTI_AUTOMA,CardName.CULTURAL_POLICY_IF_AGGRESSIVE,CardName.KNOWLEDGE_IF_ARCHITECTURAL],
       {gold:2})
 
     bot.startRound()
@@ -247,7 +249,7 @@ describe('Bot', () => {
 
   it('CHINA.CHINA_CIVILIZATION', () => {
     const bot = setupBot(CivilizationName.CHINA,
-      [CardName.CHINA_CIVILIZATION,CardName.CULTURAL_POLICY_IF_AGGRESSIVE,
+      [CardName.MULTI_AUTOMA,CardName.CULTURAL_POLICY_IF_AGGRESSIVE,
        CardName.ADVANCED_EXPLORERS_WONDER,CardName.EXPLORERS_IF_TECHNOLOGICAL],
        {gold:2})
 
@@ -265,7 +267,7 @@ describe('Bot', () => {
 
   it('EGYPT.CHINA_CIVILIZATION', () => {
     const bot = setupBot(CivilizationName.EGYPT,
-      [CardName.EGYPT_CIVILIZATION,CardName.CULTURAL_POLICY_IF_AGGRESSIVE,CardName.ADVANCED_EXPLORERS_WONDER],
+      [CardName.MULTI_AUTOMA,CardName.CULTURAL_POLICY_IF_AGGRESSIVE,CardName.ADVANCED_EXPLORERS_WONDER],
       {gold:2})
 
     bot.startRound()
@@ -284,7 +286,7 @@ describe('Bot', () => {
 
   it('GREECE.GREECE_CIVILIZATION', () => {
     const bot = setupBot(CivilizationName.GREECE,
-      [CardName.GREECE_CIVILIZATION,CardName.ADVANCED_EXPLORERS_WONDER,CardName.CULTURAL_POLICY_IF_AGGRESSIVE],
+      [CardName.MULTI_AUTOMA,CardName.ADVANCED_EXPLORERS_WONDER,CardName.CULTURAL_POLICY_IF_AGGRESSIVE],
       {gold:2})
 
     bot.startRound()
@@ -302,7 +304,7 @@ describe('Bot', () => {
 
   it('MUGHALS.MUGHALS_CIVILIZATION', () => {
     const bot = setupBot(CivilizationName.MUGHALS,
-      [CardName.MUGHALS_CIVILIZATION,CardName.ADVANCED_EXPLORERS_WONDER,CardName.KNOWLEDGE_IF_ARCHITECTURAL],
+      [CardName.MULTI_AUTOMA,CardName.ADVANCED_EXPLORERS_WONDER,CardName.KNOWLEDGE_IF_ARCHITECTURAL],
       {gold:2})
 
     bot.startRound()
@@ -320,7 +322,7 @@ describe('Bot', () => {
 
   it('JAPAN.JAPAN_CIVILIZATION.option.CONQUER_1_ADJACENT_LOWEST_COST', () => {
     const bot = setupBot(CivilizationName.JAPAN,
-      [CardName.JAPAN_CIVILIZATION,CardName.KNOWLEDGE_IF_ARCHITECTURAL],
+      [CardName.MULTI_AUTOMA,CardName.KNOWLEDGE_IF_ARCHITECTURAL],
       {gold:2})
 
     bot.startRound()
@@ -336,7 +338,7 @@ describe('Bot', () => {
 
   it('JAPAN.JAPAN_CIVILIZATION.option.DEVELOP_1_CULTURAL_POLICY', () => {
     const bot = setupBot(CivilizationName.JAPAN,
-      [CardName.JAPAN_CIVILIZATION,CardName.KNOWLEDGE_IF_ARCHITECTURAL],
+      [CardName.MULTI_AUTOMA,CardName.KNOWLEDGE_IF_ARCHITECTURAL],
       {gold:2})
 
     bot.startRound()
@@ -352,7 +354,7 @@ describe('Bot', () => {
 
   it('JAPAN.JAPAN_CIVILIZATION.option.DRAW_CARD', () => {
     const bot = setupBot(CivilizationName.JAPAN,
-      [CardName.JAPAN_CIVILIZATION,CardName.KNOWLEDGE_IF_ARCHITECTURAL],
+      [CardName.MULTI_AUTOMA,CardName.KNOWLEDGE_IF_ARCHITECTURAL],
       {gold:2})
 
     bot.startRound()
@@ -367,8 +369,8 @@ describe('Bot', () => {
 
   it('ATLANTIS.ATLANTIS_CIVILIZATION', () => {
     const bot = setupBot(CivilizationName.ATLANTIS,
-      [CardName.ATLANTIS_CIVILIZATION,CardName.KNOWLEDGE_IF_ARCHITECTURAL,
-        CardName.ATLANTIS_CIVILIZATION,CardName.CULTURAL_POLICY_IF_AGGRESSIVE],
+      [CardName.MULTI_AUTOMA,CardName.KNOWLEDGE_IF_ARCHITECTURAL,
+        CardName.MULTI_AUTOMA,CardName.CULTURAL_POLICY_IF_AGGRESSIVE],
       {gold:3})
 
     bot.startRound()
@@ -418,4 +420,75 @@ describe('Bot', () => {
 
     expect(bot.goldTotal).to.eq(20)
   })
+
+  it('MALIANS.MALIANS_CIVILIZATION', () => {
+    const bot = setupBot(CivilizationName.MALIANS,
+      [CardName.MULTI_AUTOMA,CardName.TRADE_TRACK_IF_ECONOMIC,
+        CardName.KNOWLEDGE_IF_ARCHITECTURAL],
+      {gold:3})
+
+    bot.startRound()
+
+    expect(bot.actions.length).to.eq(3)
+    expect(bot.actions[0].action).to.eq(Action.GAIN_2_GOLD)
+    expect(bot.actions[0].completed).to.true   // GAIN_2_GOLD played automatically
+    expect(bot.actions[1].action).to.eq(Action.TRADE_TRACK_1_STEP)
+    expect(bot.actions[2].action).to.eq(Action.DRAW_CARD)
+
+    bot.actions[1].complete()
+    expect(bot.goldTotal).to.eq(5)
+
+    // next card was drawn automatically by action [2]
+    expect(bot.actions.length).to.eq(7)
+
+    bot.actions[3].complete()
+    bot.actions[4].complete()
+    bot.actions[5].complete()
+    bot.actions[6].complete()
+
+    expect(bot.goldTotal).to.eq(3)
+
+    // 2nd card of round was drawn
+    expect(bot.actions.length).to.eq(9)
+  })
+
+  it('AZTECS.GAIN_2_GOLD_PER_POLICY', () => {
+    const bot = setupBot(CivilizationName.AZTECS,
+      [CardName.TRADE_TRACK_IF_CULTURAL,CardName.KNOWLEDGE_IF_ARCHITECTURAL],
+      {gold:3,culturalPolicies:3})
+
+    bot.startRound()
+
+    expect(bot.actions.length).to.eq(4)
+    expect(bot.actions[0].action).to.eq(Action.TRADE_TRACK_1_STEP)
+    expect(bot.actions[1].action).to.eq(Action.TRADE_TRACK_1_STEP)
+    expect(bot.actions[2].action).to.eq(Action.TRADE_TRACK_1_STEP)
+    expect(bot.actions[3].action).to.eq(Action.GAIN_2_GOLD_PER_POLICY)
+
+    bot.actions[0].complete()
+    bot.actions[1].complete()  // gold cost 1
+    bot.actions[2].complete()  // gold cost 1
+
+    // gain 2 gold per 3 policies
+    expect(bot.goldTotal).to.eq(7)
+  })
+
+  it('AZTECS.REMOVE_CARD', () => {
+    const bot = setupBot(CivilizationName.AZTECS,
+      [CardName.TRADING_POST_1,CardName.KNOWLEDGE_IF_ARCHITECTURAL],
+      {gold:3})
+
+    bot.startRound()
+
+    expect(bot.actions.length).to.eq(1)
+    expect(bot.actions[0].action).to.eq(Action.BUILD_TRADING_POST_REMOVE_CARD)
+
+    expect(bot.cardDeck.openCards.map(card => card.name)).to.eql([CardName.TRADING_POST_1])
+
+    bot.actions[0].complete()
+
+    expect(bot.cardDeck.openCards.map(card => card.name)).to.eql([CardName.KNOWLEDGE_IF_ARCHITECTURAL])
+    expect(bot.cardDeck.discardPile.map(card => card.name)).to.eql([])  // card was removed
+  })
+
 })

@@ -30,6 +30,7 @@ import CivilizationName from '@/services/enum/CivilizationName'
 import Civilization from '@/services/Civilization'
 import Civilizations from '@/services/Civilizations'
 import Expansion from '@/services/enum/Expansion'
+import getAllEnumValues from '@brdgm/brdgm-commons/src/util/enum/getAllEnumValues'
 
 export default defineComponent({
   name: 'SelectCivilization',
@@ -67,7 +68,7 @@ export default defineComponent({
     civilizationExpansions() : (Expansion | undefined)[] {
       return [
         undefined,
-        ...this.state.setup.expansions
+        ...getAllEnumValues(Expansion).filter(item => this.state.setup.expansions.includes(item))
       ]
     },
   },
@@ -87,3 +88,9 @@ export default defineComponent({
   }
 })
 </script>
+
+<style lang="scss" scoped>
+.dropdown-item {
+  cursor: default;
+}
+</style>

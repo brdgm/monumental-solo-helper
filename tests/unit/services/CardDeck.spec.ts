@@ -1,24 +1,24 @@
-import CivilizationName from '@/services/enum/CivilizationName'
 import CardName from '@/services/enum/CardName'
 import CardDeck from '@/services/CardDeck'
 import { expect } from 'chai'
 import Cards from '@/services/Cards'
+import Module from '@/services/enum/Module'
 
 describe('CardDeck', () => {
   it('newShuffled', () => {
-    const cardDeck = CardDeck.new(3, CivilizationName.GREECE)
+    const cardDeck = CardDeck.new(3, [], [Module.HEROES])
 
-    expect(cardDeck.drawPile.length).to.eq(19)
+    expect(cardDeck.drawPile.length).to.eq(20)
     expect(cardDeck.discardPile.length).to.eq(0)
     expect(cardDeck.openCards.length).to.eq(0)
 
     const persistence = cardDeck.toPersistence()
-    expect(persistence.drawPile.length).to.eq(19)
+    expect(persistence.drawPile.length).to.eq(20)
     expect(persistence.discardPile.length).to.eq(0)
     expect(persistence.openCards.length).to.eq(0)
     expect(persistence.nexusCards.length).to.eq(0)
 
-    expect(persistence.drawPile.includes(CardName.GREECE_CIVILIZATION)).to.true
+    expect(persistence.drawPile.includes(CardName.MULTI_AUTOMA)).to.true
   })
 
   it('draw', () => {

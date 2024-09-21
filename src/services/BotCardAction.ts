@@ -11,9 +11,12 @@ export default class BotCardAction {
   private static readonly AUTOMATIC_ACTIONS = [
     Action.DEVELOP_1_CULTURAL_POLICY,
     Action.DEVELOP_1_CULTURAL_POLICY_2_GOLD_PER_POLICY,
+    Action.GAIN_2_GOLD,
     Action.GAIN_3_GOLD,
+    Action.GAIN_2_GOLD_PER_POLICY,
     Action.SHUFFLE_CARDS,
     Action.DRAW_CARD,
+    Action.REMOVE_CARD,
     Action.ATLANTIS_NEXUS_PLACE_NEXT_USE_ALL,
     Action.CHINA_DRAW_UNTIL_TECHNOLOGICAL_ACTION,
     Action.EGYPT_DRAW_CARD_GET_TWICE_ACTION_NON_SPECIAL,
@@ -28,6 +31,11 @@ export default class BotCardAction {
     Action.CONQUER_1_ADJACENT_LOWEST_COST,
     Action.CONQUER_1_ADJACENT_HIGHEST_COST,
     Action.CONQUER_3_ADJACENT_HIGHEST_COST,
+    Action.FEWEST_PROVINCES_CONQUER_1_ADJACENT_LOWEST_COST,
+    Action.TRADE_TRACK_1_STEP,
+    Action.TRADE_TRACK_2_STEP,
+    Action.TRADE_TRACK_LAST_TRADE_TRACK_2_STEP,
+    Action.BUILD_TRADING_POST_REMOVE_CARD,
     Action.AZTECS_SACRIFICE_GET_GOLD,
     Action.DENMARK_COASTAL_PROVINCES_GOLD
   ]
@@ -138,6 +146,9 @@ export default class BotCardAction {
     else if (options.actionOption) {
       throw new Error("Action can only be chosen for CHOOSE_ACTION action.")
     }
+    if (this.action == Action.BUILD_TRADING_POST_REMOVE_CARD) {
+      this.removeCardWithAction(Action.BUILD_TRADING_POST_REMOVE_CARD)
+    }
     if (options.goldEarned && !this.mayEarnGold()) {
       throw new Error('No gold can be earned with this action: ' + this.action)
     }
@@ -150,6 +161,7 @@ export default class BotCardAction {
   private executeActionAutomatically() : void {
     switch (this.action) {
       case Action.DEVELOP_1_CULTURAL_POLICY:
+      case Action.FEWEST_CULTURAL_POLICIES_DEVELOP_1_CULTURAL_POLICY:
         if (!this._bot.developCulturalPolicy()) {
           if (this.goldCost == 0) {
             // gain two gold if not possible to develop another cultural policy
@@ -176,14 +188,23 @@ export default class BotCardAction {
         }
         this._gold += this._bot.culturalPolicies * 2
         break
+      case Action.GAIN_2_GOLD:
+        this._gold += 2
+        break
       case Action.GAIN_3_GOLD:
         this._gold += 3
+        break
+      case Action.GAIN_2_GOLD_PER_POLICY:
+        this._gold += this._bot.culturalPolicies * 2
         break
       case Action.SHUFFLE_CARDS:
         this._bot.shuffleCards()
         break
       case Action.DRAW_CARD:
         this._bot.drawCard()
+        break
+      case Action.REMOVE_CARD:
+        this.removeCardWithAction(Action.REMOVE_CARD)
         break
       case Action.ATLANTIS_NEXUS_PLACE_NEXT_USE_ALL:
         this._bot.drawCardToNexusUseAll()
@@ -239,6 +260,18 @@ export default class BotCardAction {
   }
 
   /**
+   * Removes card of current open card that has the given action.
+   * @param actionOfCardToRemove Action
+   */
+  private removeCardWithAction(actionOfCardToRemove: Action) {
+    const cardToRemove = this._bot.cardDeck.openCards
+        .find(card => card.actions.map(cardAction => cardAction.action).find(action => action == actionOfCardToRemove) != undefined)
+    if (cardToRemove) {
+      this._bot.cardDeck.removeCard(cardToRemove)
+    }
+  }
+
+  /**
    * Gets persistence view of bot card action.
    */
   public toPersistence() : BotCardActionPersistence {
@@ -267,7 +300,7 @@ export default class BotCardAction {
       persistence.skipped,
       persistence.gold
     )
-  }  
+  }
 
 }
 
