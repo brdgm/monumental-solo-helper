@@ -72,7 +72,8 @@
     "japan": "Japan",
     "malians": "Malians",
     "mughals": "Mughals",
-    "zulu": "Zulu"
+    "zulu": "Zulu",
+    "random": "Random civilization"
   },
   "civilizationType": {
     "aggressive": "Aggressive",
