@@ -103,6 +103,9 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.dropdown-menu {
+  z-index: 1031;
+}
 .dropdown-item {
   cursor: default;
 }
