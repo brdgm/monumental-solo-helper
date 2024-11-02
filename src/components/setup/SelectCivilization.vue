@@ -17,6 +17,12 @@
           </a>
         </li>
       </template>
+      <li><hr class="dropdown-divider"></li>
+      <li>
+        <a class="dropdown-item" @click.prevent="selectRandomCivilization()">
+          <CivilizationIconName isRandom />
+        </a>
+      </li>
     </ul>
   </div>
 </template>
@@ -76,6 +82,13 @@ export default defineComponent({
     selectCivilization(name : CivilizationName) {
       this.civilizationName = name
       this.$emit('update:modelValue', name as string)
+    },
+    selectRandomCivilization() {
+      const allCivs = this.civilizationExpansions.map(
+        expansion => this.listCivilizations(expansion).map(civ => civ.name)
+      ).flat()
+      const randomEntry = allCivs[Math.floor(Math.random() * allCivs.length)]
+      this.selectCivilization(randomEntry)
     },
     listCivilizations(expansion? : Expansion) : Civilization[] {
       if (expansion == undefined) {

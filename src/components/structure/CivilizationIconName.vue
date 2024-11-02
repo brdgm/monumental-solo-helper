@@ -1,6 +1,7 @@
 <template>
   <img :src="civilizationImageUrl" alt="" class="civ-icon"/>
-  <span class="civ-name">{{t('civilization.' + civilization?.name)}}</span>
+  <span v-if="isRandom" class="civ-name">{{t('civilization.random')}}</span>
+  <span v-if="!isRandom" class="civ-name">{{t('civilization.' + civilization?.name)}}</span>
   <span class="text-muted small" v-if="showType">{{t('civilizationType.' + civilization?.type)}}</span>
 </template>
 
@@ -18,9 +19,13 @@ export default defineComponent({
     return { t }
   },
   props: {
+    isRandom: {
+      type: Boolean,
+      required: false
+    },
     name: {
       type: String,
-      required: true
+      required: false
     },
     showType: {
       type: Boolean,
@@ -32,7 +37,7 @@ export default defineComponent({
       return Civilizations.getOptional(this.name as CivilizationName)
     },
     civilizationImageUrl() : string {
-      return new URL(`/src/assets/civilization/${this.name}.png`, import.meta.url).toString()
+      return new URL(`/src/assets/civilization/${this.isRandom ? 'random' : this.name}.png`, import.meta.url).toString()
     }
   }
 })
