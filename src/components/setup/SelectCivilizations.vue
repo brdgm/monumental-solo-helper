@@ -24,7 +24,7 @@
     <div class="col-md-3 col-xl-2">
       {{t('setup.civilization.playerCiv', { number: i }, numberHumanPlayers)}}
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6" :data-testid="`player-civilization-${i-1}`">
       <SelectCivilization v-model="playerCivilization[i-1]" @update:model-value="updatePlayerCivilization(i)"/>
     </div>
   </div>
@@ -32,7 +32,7 @@
     <div class="col-md-3 col-xl-2">
       {{t('setup.civilization.botCiv', { number: i }, numberPlayers-numberHumanPlayers)}}
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6" :data-testid="`bot-civilization-${i-1}`">
       <SelectCivilization v-model="botCivilization[i-1]" @update:model-value="updateBotCivilization(i)"/>
     </div>
   </div>
