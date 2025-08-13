@@ -23,7 +23,7 @@ test('smoke test', async ({ page }) => {
   await page.locator('#endGameModal').getByRole('button', { name: 'Finish Game' }).click()
 
   // end game
-  await page.getByRole('button', { name: 'End Game' }).click();
+  await page.getByRole('button', { name: 'End Game' }).click()
   await page.locator('#endGameModal').getByRole('button', { name: 'End Game' }).click()
 
   // app home
