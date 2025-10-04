@@ -5,6 +5,6 @@ import CardName from '@/services/enum/CardName'
 /**
  * Converts list of card names to card instances.
  */
-export default function(cardNames : CardName[]) : Card[] {
+export default function toCards(cardNames : CardName[]) : Card[] {
   return cardNames.map(Cards.get)
 }

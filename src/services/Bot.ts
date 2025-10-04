@@ -135,10 +135,10 @@ export default class Bot {
 
     // add actions from all cards currently in nexus
     const cardNumber = this._cardsDrawn.length
-    this._cardDeck.nexusCards.forEach(card => {
+    for (const card of this._cardDeck.nexusCards) {
       const actions = this.filterByCivilizationType(card.actions)
       this.addActions(cardNumber, actions)
-    })
+    }
     this.checkNextActionPlayAutomatically()
   }
 
@@ -147,7 +147,9 @@ export default class Bot {
   }
 
   private addActions(cardNumber : number, actions : CardAction[]) {
-    actions.forEach(action => this._actions.push(new BotCardAction(this, cardNumber, action.action, action.gold, action.actionOptions)))
+    for (const action of actions) {
+      this._actions.push(new BotCardAction(this, cardNumber, action.action, action.gold, action.actionOptions))
+    }
   }
 
   /**
