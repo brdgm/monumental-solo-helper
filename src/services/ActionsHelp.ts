@@ -37,9 +37,11 @@ const mappings = [
 ]
 
 const actionMap = new Map<Action,ActionHelp>()
-mappings.forEach(mapping => {
-  mapping.actions.forEach(action => actionMap.set(action, mapping.help))
-})
+for (const mapping of mappings) {
+  for (const action of mapping.actions) {
+    actionMap.set(action, mapping.help)
+  }
+}
 
 export default {
 

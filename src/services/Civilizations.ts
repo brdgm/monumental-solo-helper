@@ -23,7 +23,9 @@ const civilizations = [
 ]
 
 const civilizationsMap = new Map<CivilizationName,Civilization>()
-civilizations.forEach(civilization => civilizationsMap.set(civilization.name, civilization))
+for (const civilization of civilizations) {
+  civilizationsMap.set(civilization.name, civilization)
+}
 
 export default {
 

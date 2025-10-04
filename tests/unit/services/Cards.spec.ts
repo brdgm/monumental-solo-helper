@@ -27,8 +27,8 @@ describe('Cards', () => {
   })
 
   it('getCivilization', () => {
-    getAllEnumValues(CivilizationName).forEach(civilizationName => {
+    for (const civilizationName of getAllEnumValues(CivilizationName)) {
       expect(Cards.getCivilization(civilizationName), civilizationName).not.undefined
-    })
+    }
   })
 })
