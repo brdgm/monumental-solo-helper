@@ -160,16 +160,16 @@ function limitTradeTrackCardsTo2(cards: Card[]) : Card[] {
   let tradeTrackCardCount = 0
   const result : Card[] = []
   const shuffledCards = shuffle(cards)
-  shuffledCards.forEach(card => {
+  for (const card of shuffledCards) {
     const isTradeTrackCard = card.actions.filter(action => action.action == Action.TRADE_TRACK_1_STEP).length == 3
     if (isTradeTrackCard) {
       tradeTrackCardCount++
       if (tradeTrackCardCount > 2) {
-        return
+        continue
       }
     }
     result.push(card)
-  })
+  }
   return result
 }
 

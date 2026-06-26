@@ -3,7 +3,7 @@
   "home": {
     "title": "Monumental Solo Helper",
     "playAutoma": "Play the <b>Automa Module</b> of <a href='https://boardgamegeek.com/boardgame/248125/monumental' target='_blank' rel='noopener'><b>Monumental</b></a>.",
-    "requirements": "To play the Automa module you only need the base game, this helper application replaces the solo cards. You can play against up to 4 bots (each using it's own Automa card deck).",
+    "requirements": "To play the Automa module you only need the base game, this helper application replaces the solo cards. You can play against up to 4 bots (each using its own Automa card deck).",
     "expansions": "The expansions <b>Lost Kingdoms</b> and <b>African Empires</b> are supported.",
     "feedback": "Discussion and Feedback:"
   },
@@ -102,7 +102,7 @@
     "conquer-1-adjacent-lowest-cost": "<b>Conquer</b> an adjacent Province with the <i>lowest</i> cost.",
     "conquer-1-adjacent-highest-cost": "<b>Conquer</b> an adjacent Province with the <i>highest</i> cost.",
     "conquer-3-adjacent-highest-cost": "<b>Conquer 3</b> adjacent Provinces with the <i>highest</i> costs.",
-    "fewest-provinces-conquer-1-adjacent-lowest-cost": "If you control <b>fewer provinces</b> then each other player, <b>conquer</b> and adjacent province with the lowest cost.",
+    "fewest-provinces-conquer-1-adjacent-lowest-cost": "If you control <b>fewer provinces</b> than each other player, <b>conquer</b> an adjacent province with the lowest cost.",
     "trade-track-1-step": "Move 1 space on the <b>Trade Track</b>.",
     "trade-track-2-step": "Move <b>2 spaces</b> on the <b>Trade Track</b>.",
     "trade-track-last-trade-track-2-step": "If you are <b>behind</b> all other players on the <b>Trade Track</b>, move 2 spaces on the track for free.",
@@ -110,7 +110,7 @@
     "draw-reserve-card-2-gain-wonders": "Draw the top 2 cards of the <b>Reserve deck</b> for the current Era. Gain any <b>Wonder</b> cards for free, returning the remainder to the bottom of the deck.",
     "draw-reserve-card-3-gain-knowledge": "Draw the top 3 cards of the <b>Reserve deck</b> for the current Era. Gain any <b>Knowledge</b> cards for free, returning the remainder to the bottom of the deck.",
     "opponents-unrest-deck-discard": "Each other (human) player places 1 <b>Unrest</b> on their deck, and 1 Unrest in their discard pile.",
-    "build-trading-post-remove-card": "Build 1 <b>Trading Post</b> in the Province with one of your Explorers that is furthest from your Capital. Return that Explorer to your Capital, them move up the Trade track as usual. Then this card is removed from the Automa deck.",
+    "build-trading-post-remove-card": "Build 1 <b>Trading Post</b> in the Province with one of your Explorers that is furthest from your Capital. Return that Explorer to your Capital, then move up the Trade track as usual. Then this card is removed from the Automa deck.",
     "take-return-hero": "Take 1 <b>Hero</b> of the current Era, otherwise take 1 Hero of the latest Era available. If you already have a Hero, return it.",
     "shuffle-cards": "Shuffle the Automa's card deck.",
     "draw-card": "<b>Draw</b> another card.",

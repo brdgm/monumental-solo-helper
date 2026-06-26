@@ -14,17 +14,17 @@ export default class NavigationState {
   constructor(route : RouteLocation, state : State) {
     let round = 0
     if (route.name == 'RoundPlayer' || route.name == 'RoundBot') {
-      round = parseInt(route.params['round'] as string)
+      round = Number.parseInt(route.params['round'] as string)
     }
     let civilizationName = undefined
     let playerIndex = 0
     if (route.name == 'RoundPlayer') {
-      playerIndex = parseInt(route.params['player'] as string)
+      playerIndex = Number.parseInt(route.params['player'] as string)
       civilizationName = state.setup.civilizations.playerCivilization[playerIndex-1]
     }
     let botIndex = 0
     if (route.name == 'RoundBot') {
-      botIndex = parseInt(route.params['bot'] as string)
+      botIndex = Number.parseInt(route.params['bot'] as string)
       civilizationName = state.setup.civilizations.botCivilization[botIndex-1]
     }
 
